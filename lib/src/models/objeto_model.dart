@@ -18,6 +18,15 @@ class ObjetoModel {
     bool disponible;
     String fotoUrl;
 
+/**
+    * @id codigo generado automaticamente por firebase
+     * @colorUno color principal del objeto
+     * @colorDos color secundario del objeto, no aplicable para todos los objetos.
+     * @texto posible texto de la llave
+     * @disponible estado de busquedad del objeto, true corresponde a llave encontrada.
+     * @fotoUrl imagen del objeto encontrado.
+     * 
+*/
     ObjetoModel({
         this.id,
         this.colorUno = '',
@@ -39,7 +48,6 @@ class ObjetoModel {
     );
 
     Map<String, dynamic> toJson() => {
-        //"id"         : id,
         "colorUno"   : colorUno,
         "colorDos"   : colorDos,
         "forma"      : forma,

@@ -4,9 +4,10 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_formulario/src/models/llave_model.dart';
 import 'package:flutter_formulario/src/providers/llaves_provider.dart';
-import 'package:flutter_formulario/src/utils/utils.dart' as utils;
 
-
+/**
+ * no aplica para la primera iteracción
+ */
 class LlavePage extends StatefulWidget {
 	@override
 	_LlavePageState createState() => _LlavePageState();
@@ -44,9 +45,9 @@ class _LlavePageState extends State<LlavePage> {
 					IconButton(
 						icon: Icon( Icons.camera_alt ),
 						onPressed: _tomarFoto,
-					) //IconButton
-				], // <Widget>[]
-			), //appBar
+					) 
+				], 
+			),
 			body: SingleChildScrollView(
 				child: Container(
 					padding: EdgeInsets.all(15.0),
@@ -61,12 +62,12 @@ class _LlavePageState extends State<LlavePage> {
 								_crearUso(),
 								_crearDisponible(),
 								_crearBoton(),
-							], //<Widget>
-						), //Column
-					), //Form
-				), //Container
-			), //SingleChildScrollView
-		); //Scaffold
+							],
+						), 
+					), 
+				), 
+			), 
+		);
 	}
 
 	Widget _crearColorUno() {
@@ -84,7 +85,7 @@ class _LlavePageState extends State<LlavePage> {
 					return null;
 				}
 			},
-		); //TextFormFiled
+		); 
 	}
 
 	Widget _crearColorDos() {
@@ -93,7 +94,7 @@ class _LlavePageState extends State<LlavePage> {
 			textCapitalization: TextCapitalization.sentences,
 			decoration: InputDecoration(
 				labelText: 'color dos'
-			), //InputDecoration
+			), 
 			onSaved: (value) => llave.colorDos = value,
 			validator: (value){
 				if ( value.length < 3){
@@ -102,7 +103,7 @@ class _LlavePageState extends State<LlavePage> {
 					return null;
 				}
 			},
-		); //TextFormFiled
+		);
 	}
 
 	Widget _crearPatron() {
@@ -111,7 +112,7 @@ class _LlavePageState extends State<LlavePage> {
 			textCapitalization: TextCapitalization.sentences,
 			decoration: InputDecoration(
 				labelText: 'patron'
-			), //InputDecoration
+			), 
 			onSaved: (value) => llave.patron = value,
 			validator: (value){
 				if ( value.length < 3){

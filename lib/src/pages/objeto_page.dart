@@ -10,6 +10,9 @@ class ObjetoPage extends StatefulWidget {
 	_ObjetoPageState createState() => _ObjetoPageState();
 }
 
+/**
+ * no aplica para la primera iteracción
+ */
 class _ObjetoPageState extends State<ObjetoPage> {
 
 	final formKey = GlobalKey<FormState>();

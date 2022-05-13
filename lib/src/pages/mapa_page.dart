@@ -3,6 +3,9 @@ import 'package:flutter_formulario/src/models/directions_model.dart';
 import 'package:flutter_formulario/src/providers/directions_repository.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+/**
+ * clase que despliega el mapa según los parametros de longitud y latitud
+ */
 class MyMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

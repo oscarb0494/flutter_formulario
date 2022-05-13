@@ -8,6 +8,12 @@ import 'package:flutter_formulario/src/providers/documentos_provider.dart';
 import 'package:flutter_formulario/src/utils/utils.dart';
 import 'package:flutter_formulario/src/pages/basico_page.dart';
 
+/**
+ * pagina para el ingreso del documento que desemos buscar
+ * la pagina despliega un formulario con un campo para ingresar el número del documento buscado.
+ * si el documento es encontrado dirige a la pagina BasicoPage
+ * si el documento no se encuentra en la base de datos despliega un aviso indicando la situación.
+ */
 class DocumentosPage extends StatefulWidget {
 	@override
 	_DocumentoPageState createState() => _DocumentoPageState();
@@ -46,7 +52,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
                       children: <Widget>[
                         _titulos(),
                         _digitarCedula(),
-                        SizedBox(   //Use of SizedBox
+                        SizedBox( 
                           height: 30,
                         ),
                         _crearBoton()
@@ -59,29 +65,6 @@ class _DocumentoPageState extends State<DocumentosPage> {
       ),
       bottomNavigationBar: _bottomNavigationBar(context)
           );
-      /**
-			key: scaffoldKey,
-			appBar: AppBar(
-				title: Text('Documentos'),
-				
-			),
-			body: Center(
-        child: SingleChildScrollView(
-				child: Container(
-					padding: EdgeInsets.all(15.0),
-					child: Form(
-						key: formKey,
-						child: Column(
-							children: <Widget>[
-								_digitarCedula(),
-								_crearBoton(),
-							], //<Widget>
-						), //Column
-					), //Form
-				), //Container
-        ),  //center
-			), //SingleChildScrollView
-		); //Scaffold **/
 	}
 
     Widget _fondoApp(){
@@ -211,7 +194,7 @@ OutlineInputBorder myfocusborder(){
       focusedBorder: myfocusborder(), //focused border
 				labelText: 'Cedula',
         
-			), //InputDecoration
+			),
 
 			onSaved: (value) => documento.cedula = value,
 			validator: (value){
@@ -221,9 +204,12 @@ OutlineInputBorder myfocusborder(){
 					return null;
 				}
 			},
-		); //TextFormFiled
+		); 
 	}
 
+/**
+ * despliega el botón para enviar el formulario.
+ */
 	Widget _crearBoton(){
      return RaisedButton(
           shape: StadiumBorder(),
@@ -234,23 +220,7 @@ OutlineInputBorder myfocusborder(){
             child: Text('Buscar', style: TextStyle(fontSize: 20.0))
           ),
           onPressed: (_buscar) ? null : _submit,
-      );
-	
-    /**
-     * 
-     * 	return RaisedButton.icon(
-			shape: RoundedRectangleBorder(
-				borderRadius: BorderRadius.circular(20.0)
-			),
-			color: Colors.deepPurple,
-			textColor: Colors.white,
-			label: Text('Buscar'),
-			icon: Icon( Icons.save ),
-			onPressed: (_buscar) ? null : _submit,
-		); //RaisedButton 
-     */
-  	
-  
+      );  
   }
 
   Future<Map<String, dynamic>> existe(String cedula) async{
@@ -262,6 +232,11 @@ OutlineInputBorder myfocusborder(){
       return { 'ok':false};
   }
 
+/**
+ * verifica que el formulario se halla llenado correctamente
+ * si el documento existe en la base de datos, dirige a la pagina BasicoPage
+ * si el documento no se ha encontrado se muestra una alerta
+ */
 	void _submit() async {
 		if ( !formKey.currentState.validate() ) return;
 		formKey.currentState.save();
@@ -285,27 +260,17 @@ OutlineInputBorder myfocusborder(){
 		} else{
 			mostrarAlerta( context, 'cedula no encontrada' );
 		}}
-
-		/**if (objeto.cedula == null){
-			objetoProvider.crearObjeto(objeto);
-		} else{
-			objetoProvider.editarObjeto(objeto);
-		}**/
-
-		//setState(() {_buscar = false;});
-		//mostrarSnackbar('buscando');
-		//Navigator.pop(context);
 	}
 
+/**
+ * mensaje de alerta
+ */
 	void mostrarSnackbar(String mensaje){
 		final snackbar = SnackBar(
 			content: Text(mensaje),
 			duration: Duration(milliseconds: 1500),
-		); //snackbar
+		);
 
 		scaffoldKey.currentState.showSnackBar(snackbar);
 	}
-
-	
-
 }

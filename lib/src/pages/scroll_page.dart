@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+/**
+ * 
+ * pagina inicial de la app
+ * despliega una ventana inicial con la presentación de la aplicación
+ */
 class ScrollPage extends StatelessWidget {
   
   @override

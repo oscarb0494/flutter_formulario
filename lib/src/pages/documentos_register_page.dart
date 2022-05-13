@@ -4,9 +4,11 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_formulario/src/models/documentos_model.dart';
 import 'package:flutter_formulario/src/providers/documentos_provider.dart';
-import 'package:flutter_formulario/src/utils/utils.dart' as utils;
 
 
+/**
+ * no aplica para la primera iteracción
+ */
 class DocumentosRegisterPage extends StatefulWidget {
 	@override
 	_DocumentosRegisterPageState createState() => _DocumentosRegisterPageState();

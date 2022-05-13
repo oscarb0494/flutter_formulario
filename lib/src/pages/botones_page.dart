@@ -4,6 +4,11 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:ui';
 
+/**
+ * pagina para escoger entre las opciones busquedad
+ * la pagina despliega una lista de opciones (documentos,llaves, objetos)
+ * al presionar alguna de las opciones lo debe llevar al formulario para encontrar objetos referentes a la opción elegida.
+ */
 class BotonesPage extends StatelessWidget {
   
   @override
@@ -26,7 +31,9 @@ class BotonesPage extends StatelessWidget {
     );
   }
 
-
+/**
+ * crea el fondo de la pagína.
+ */
   Widget _fondoApp(){
 
     final gradiente = Container(
@@ -74,6 +81,9 @@ class BotonesPage extends StatelessWidget {
 
   }
 
+/**
+ * despliega el titulo de la sección
+ */
   Widget _titulos() {
 
     return SafeArea(
@@ -92,6 +102,9 @@ class BotonesPage extends StatelessWidget {
 
   }
 
+/**
+ * despliega la barra inferior de la app.
+ */
   Widget _bottomNavigationBar(BuildContext context) {
 
     return Theme(
@@ -122,7 +135,9 @@ class BotonesPage extends StatelessWidget {
 
   }
 
-
+/**
+ * asignar estilo a los botones
+ */
   Widget _botonesRedondeados(context) {
 
     return Table(

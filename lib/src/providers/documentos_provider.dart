@@ -6,7 +6,9 @@ import 'package:http_parser/http_parser.dart';
 import 'dart:io';
 import 'package:flutter_formulario/src/preferencias_usuario/preferencias_usuario.dart';
 
-
+/**
+ * maneja los datos provenientes de la base de datos referente a documentos
+ */
 class DocumentosProvider {
 	final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
 	final _prefs = new PreferenciasUsuario();

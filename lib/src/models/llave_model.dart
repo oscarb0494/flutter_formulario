@@ -8,6 +8,9 @@ LlaveModel llaveModelFromJson(String str) => LlaveModel.fromJson(json.decode(str
 
 String llaveModelToJson(LlaveModel data) => json.encode(data.toJson());
 
+/**
+ * modelo para el manejo de los datos referentes a llaves.
+ */
 class LlaveModel {
 
     String id;
@@ -18,6 +21,15 @@ class LlaveModel {
     bool disponible;
     String fotoUrl;
 
+    /**
+     * @id codigo generado automaticamente por firebase
+     * @colorUno color de la base de la llave, no aplica para todas las llaves.
+     * @colorDos color de la llave (dorada,plateada,cobre)
+     * @patron patron de la llave(cerrucho, inglesa, etc)
+     * @uso utilidad de la llave
+     * @disponible estado de busquedad de la llave, true corresponde a llave encontrada.
+     * @fotoUrl imagen del objeto encontrado.
+     */
     LlaveModel({
         this.id,
         this.colorUno = '',
@@ -39,7 +51,6 @@ class LlaveModel {
     );
 
     Map<String, dynamic> toJson() => {
-        //"id"         : id,
         "colorUno"   : colorUno,
         "colorDos"   : colorDos,
         "patron"     : patron,
