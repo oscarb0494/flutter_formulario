@@ -4,33 +4,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_formulario/src/models/documentos_model.dart';
 import 'dart:io';
 
-import 'package:flutter_formulario/src/providers/objetos_provider.dart';
+import 'package:flutter_formulario/src/providers/documentos_provider.dart';
+import 'package:flutter_formulario/src/utils/utils.dart';
+import 'package:flutter_formulario/src/pages/basico_page.dart';
 
 class DocumentosPage extends StatefulWidget {
 	@override
-	_ObjetoPageState createState() => _ObjetoPageState();
+	_DocumentoPageState createState() => _DocumentoPageState();
 }
 
-class _ObjetoPageState extends State<DocumentosPage> {
+class _DocumentoPageState extends State<DocumentosPage> {
 
 	final formKey = GlobalKey<FormState>();
 	final scaffoldKey = GlobalKey<ScaffoldState>();
-	final objetoProvider = new ObjetosProvider();
+	final documentoProvider = new DocumentosProvider();
 
-	DocumentosModel objeto = new DocumentosModel();
+	DocumentosModel documento = new DocumentosModel();
 	bool _buscar = false;
 	File foto;
  
 	@override
 	Widget build(BuildContext context){
 
-		final DocumentosModel objetoData = ModalRoute.of(context).settings.arguments;
+		final DocumentosModel documentoData = ModalRoute.of(context).settings.arguments;
 
-		if ( objetoData != null ){
-			objeto = objetoData;
+		if ( documentoData != null ){
+			documento = documentoData;
 		}
-
-
 
           return Scaffold(
       body: Stack(
@@ -138,7 +138,7 @@ class _ObjetoPageState extends State<DocumentosPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('buscando cedula', style: TextStyle( color: Colors.white, fontSize: 30.0, fontWeight: FontWeight.bold )),
+            Text('buscando documento', style: TextStyle( color: Colors.white, fontSize: 30.0, fontWeight: FontWeight.bold )),
             SizedBox( height: 10.0 ),
           ],
         ),
@@ -199,7 +199,7 @@ OutlineInputBorder myfocusborder(){
 
   Widget _digitarCedula() {
 		return TextFormField(
-			initialValue: objeto.cedula,
+			initialValue: documento.cedula,
       keyboardType: TextInputType.number,
 			textCapitalization: TextCapitalization.sentences,
 			decoration: InputDecoration(
@@ -213,7 +213,7 @@ OutlineInputBorder myfocusborder(){
         
 			), //InputDecoration
 
-			onSaved: (value) => objeto.cedula = value,
+			onSaved: (value) => documento.cedula = value,
 			validator: (value){
 				if ( value.length < 3){
 					return 'Digite el numero';
@@ -233,7 +233,7 @@ OutlineInputBorder myfocusborder(){
             padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
             child: Text('Buscar', style: TextStyle(fontSize: 20.0))
           ),
-          onPressed: ()=> Navigator.pushNamed(context, 'basic'),
+          onPressed: (_buscar) ? null : _submit,
       );
 	
     /**
@@ -253,14 +253,38 @@ OutlineInputBorder myfocusborder(){
   
   }
 
-	void _submit() async {
+  Future<Map<String, dynamic>> existe(String cedula) async{
+    List<DocumentosModel> info = await documentoProvider.cargarDocumento(cedula);
 
-    /*
+    if(info.isNotEmpty){
+      return { 'ok':true};
+    }
+      return { 'ok':false};
+  }
+
+	void _submit() async {
 		if ( !formKey.currentState.validate() ) return;
 		formKey.currentState.save();
-    */
 
 		setState(() {_buscar = true;});
+    DocumentosModel doc = null;
+
+    if(documento.cedula != ' '){
+        setState(() {_buscar = false;});
+
+        Map info = await existe(documento.cedula);
+
+		if ( info['ok'] ){
+			  Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BasicoPage(
+             data: documento.cedula,
+           )),
+     );
+		} else{
+			mostrarAlerta( context, 'cedula no encontrada' );
+		}}
 
 		/**if (objeto.cedula == null){
 			objetoProvider.crearObjeto(objeto);
@@ -268,10 +292,9 @@ OutlineInputBorder myfocusborder(){
 			objetoProvider.editarObjeto(objeto);
 		}**/
 
-		setState(() {_buscar = false;});
-		mostrarSnackbar('buscando');
-
-		Navigator.pop(context);
+		//setState(() {_buscar = false;});
+		//mostrarSnackbar('buscando');
+		//Navigator.pop(context);
 	}
 
 	void mostrarSnackbar(String mensaje){

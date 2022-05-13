@@ -1,19 +1,20 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter_formulario/src/models/llave_model.dart';
+import 'package:flutter_formulario/src/models/documentos_model.dart';
 import 'package:mime_type/mime_type.dart';
 import 'package:http_parser/http_parser.dart';
 import 'dart:io';
 import 'package:flutter_formulario/src/preferencias_usuario/preferencias_usuario.dart';
 
-class LlavesProvider {
+
+class DocumentosProvider {
 	final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
 	final _prefs = new PreferenciasUsuario();
 
-	Future<bool> crearLlave( LlaveModel llave ) async{
-		final url = '$_url/llaves.json?auth=${ _prefs.token }';
+	Future<bool> crearDocumento( DocumentosModel documento ) async{
+		final url = '$_url/documentos.json?auth=${ _prefs.token }';
 
-		final resp = await http.post(url, body: llaveModelToJson(llave) );
+		final resp = await http.post(url, body: documentosModelToJson(documento) );
 
 		final decodedData = json.decode(resp.body);
 		print( decodedData );
@@ -21,10 +22,10 @@ class LlavesProvider {
 		return true;
 	}
 
-	Future<bool> editarLlave( LlaveModel llave ) async{
-		final url = '$_url/llaves/${ llave.id }.json?auth=${ _prefs.token }';
+	Future<bool> editarDocumento( DocumentosModel documento ) async{
+		final url = '$_url/documentos/${ documento.id }.json?auth=${ _prefs.token }';
 
-		final resp = await http.put(url, body: llaveModelToJson(llave) );
+		final resp = await http.put(url, body: documentosModelToJson(documento) );
 		final decodedData = json.decode(resp.body);
 		
 		print( decodedData );
@@ -32,28 +33,51 @@ class LlavesProvider {
 		return true;
 	}
 
-	Future<List<LlaveModel>> cargarLlaves() async{
-		final url = '$_url/llaves.json?auth=${ _prefs.token }';
+	Future<List<DocumentosModel>> cargarDocumentos() async{
+		final url = '$_url/documentos.json?auth=${ _prefs.token }';
 		final resp = await http.get(url);
 
 		final Map<String,dynamic> decodedData = json.decode(resp.body);
-		final List<LlaveModel> llaves = new List();
+		final List<DocumentosModel> documentos = new List();
 
 		if (decodedData == null ) return [];
 
-		decodedData.forEach((id, prod ){
-			final prodTemp = LlaveModel.fromJson(prod);
-			prodTemp.id = id;
+		decodedData.forEach((id, doc ){
+			final docTemp = DocumentosModel.fromJson(doc);
+			docTemp.id = id;
 
-			llaves.add( prodTemp );
+			documentos.add( docTemp );
 		});
 
-		print( llaves );
-		return llaves;
+		print( documentos );
+		return documentos;
 	}
 
-	Future<int> borrarLlave(String id) async{
-		final url = '$_url/llaves/$id.json?auth=${ _prefs.token }';
+	Future <List<DocumentosModel>> cargarDocumento(String cedula) async{
+		final url = '$_url/documentos.json?auth=${ _prefs.token }';
+		final resp = await http.get(url);
+
+		final Map<String,dynamic> decodedData = json.decode(resp.body);
+		final List<DocumentosModel> documentos = new List();
+
+		if (decodedData == null ) return [];
+
+		decodedData.forEach((id, doc){
+			final docTemp = DocumentosModel.fromJson(doc);
+
+			if (docTemp.cedula == cedula){
+				print("entra");
+				print(docTemp);
+				docTemp.id = id;
+				documentos.add( docTemp );
+			}	
+		});
+
+		return documentos;
+	}
+
+	Future<int> borrarDocumento(String id) async{
+		final url = '$_url/documentos/$id.json?auth=${ _prefs.token }';
 		final resp = await http.delete(url);
 
 		print( json.decode(resp.body) );

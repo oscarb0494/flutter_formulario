@@ -49,6 +49,24 @@ class MenuWidget extends StatelessWidget{
 						},
 					), //ListTile
 
+					ListTile(
+						leading: Icon(Icons.settings, color: Colors.blue),
+						title: Text('App'),
+						onTap: (){
+							//Navigator.pop(context);
+							Navigator.pushReplacementNamed(context, 'scroll');
+						},
+					), //ListTile
+
+					ListTile(
+						leading: Icon(Icons.settings, color: Colors.blue),
+						title: Text('registro documentos'),
+						onTap: (){
+							//Navigator.pop(context);
+							Navigator.pushReplacementNamed(context, 'documento_register');
+						},
+					), //ListTile
+
 				], // </Widhet>[]
 			), //ListView
 		); //Drawer

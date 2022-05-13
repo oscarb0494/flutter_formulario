@@ -8,7 +8,7 @@ import 'package:flutter_formulario/src/models/llave_model.dart';
 import 'package:flutter_formulario/src/models/objeto_model.dart';
 import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
-class HomePage extends StatelessWidget {
+class HomePageLlaves extends StatelessWidget {
 	final productosProvider = new ProductosProvider();
 	final llavesProvider = new LlavesProvider();
 	final objetosProvider = new ObjetosProvider();
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
 				title: Text('home')
 			), //appBar
 			drawer: MenuWidget(),
-			body: _crearListadoObjetos(),
+			body: _crearListadoLlaves(),
 			floatingActionButton: _crearBoton(context),
 		); //Scaffold
 	}
@@ -59,7 +59,7 @@ class HomePage extends StatelessWidget {
 					return ListView.builder(
 						itemCount: llaves.length,
 						itemBuilder: (context,i) => _crearItemLlave(context, llaves[i]),
-					);
+					); //ListView
 
 				} else{
 					return Center(
@@ -192,7 +192,7 @@ class HomePage extends StatelessWidget {
 		return FloatingActionButton(
 			child: Icon( Icons.add ),
 			backgroundColor: Colors.deepPurple,
-			onPressed: ()=> Navigator.pushNamed(context, 'objeto'),
+			onPressed: ()=> Navigator.pushNamed(context, 'llave'),
 		); //FloatingActionButton
 	}
 }
