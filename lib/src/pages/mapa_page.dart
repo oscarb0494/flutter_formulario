@@ -24,10 +24,10 @@ class MapScreen extends StatefulWidget {
   double longitud;
   double latitud;
 
-  MapScreen({this.longitud,this.latitud});
+  MapScreen({this.longitud, this.latitud});
 
   @override
-  _MapScreenState createState() => _MapScreenState(this.longitud,this.latitud);
+  _MapScreenState createState() => _MapScreenState(this.longitud, this.latitud);
 }
 
 class _MapScreenState extends State<MapScreen> {

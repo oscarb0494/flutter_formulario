@@ -30,12 +30,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   rxdart: ^0.22.0
   http: ^0.12.1
-  image_picker: ^0.6.0+2 
+  image_picker: ^0.6.0+2
   mime_type:
   shared_preferences: ^0.5.2
   dio:
   flutter_polyline_points:
   google_maps_flutter:
+  flex_color_picker:
 
 dev_dependencies:
   flutter_test:
