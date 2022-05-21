@@ -38,13 +38,13 @@ class _ObjetoPageState extends State<ObjetoPage> {
           IconButton(
             icon: Icon(Icons.photo_size_select_actual),
             onPressed: _seleccionarFoto,
-          ), //IconButton
+          ), 
           IconButton(
             icon: Icon(Icons.camera_alt),
             onPressed: _tomarFoto,
-          ) //IconButton
-        ], // <Widget>[]
-      ), //appBar
+          ) 
+        ], 
+      ), 
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(15.0),
@@ -59,19 +59,19 @@ class _ObjetoPageState extends State<ObjetoPage> {
                 _crearTexto(),
                 _crearDisponible(),
                 _crearBoton(),
-              ], //<Widget>
-            ), //Column
-          ), //Form
-        ), //Container
-      ), //SingleChildScrollView
-    ); //Scaffold
+              ], 
+            ), 
+          ), 
+        ), 
+      ), 
+    );
   }
 
   Widget _crearColorUno() {
     return TextFormField(
       initialValue: objeto.colorUno,
       textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(labelText: 'color uno'), //InputDecoration
+      decoration: InputDecoration(labelText: 'color uno'), 
       onSaved: (value) => objeto.colorUno = value,
       validator: (value) {
         if (value.length < 3) {
@@ -80,14 +80,14 @@ class _ObjetoPageState extends State<ObjetoPage> {
           return null;
         }
       },
-    ); //TextFormFiled
+    ); 
   }
 
   Widget _crearColorDos() {
     return TextFormField(
       initialValue: objeto.colorDos,
       textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(labelText: 'color dos'), //InputDecoration
+      decoration: InputDecoration(labelText: 'color dos'), 
       onSaved: (value) => objeto.colorDos = value,
       validator: (value) {
         if (value.length < 3) {
@@ -96,14 +96,14 @@ class _ObjetoPageState extends State<ObjetoPage> {
           return null;
         }
       },
-    ); //TextFormFiled
+    ); 
   }
 
   Widget _crearForma() {
     return TextFormField(
       initialValue: objeto.forma,
       textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(labelText: 'patron'), //InputDecoration
+      decoration: InputDecoration(labelText: 'patron'),
       onSaved: (value) => objeto.forma = value,
       validator: (value) {
         if (value.length < 3) {
@@ -112,14 +112,14 @@ class _ObjetoPageState extends State<ObjetoPage> {
           return null;
         }
       },
-    ); //TextFormFiled
+    );
   }
 
   Widget _crearTexto() {
     return TextFormField(
       initialValue: objeto.texto,
       textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(labelText: 'uso'), //InputDecoration
+      decoration: InputDecoration(labelText: 'uso'),
       onSaved: (value) => objeto.texto = value,
       validator: (value) {
         if (value.length < 3) {
@@ -128,7 +128,7 @@ class _ObjetoPageState extends State<ObjetoPage> {
           return null;
         }
       },
-    ); //TextFormFiled
+    ); 
   }
 
   Widget _crearDisponible() {
@@ -150,7 +150,7 @@ class _ObjetoPageState extends State<ObjetoPage> {
       label: Text('guardar'),
       icon: Icon(Icons.save),
       onPressed: (_guardando) ? null : _submit,
-    ); //RaisedButton
+    ); 
   }
 
   void _submit() async {
@@ -183,7 +183,7 @@ class _ObjetoPageState extends State<ObjetoPage> {
     final snackbar = SnackBar(
       content: Text(mensaje),
       duration: Duration(milliseconds: 1500),
-    ); //snackbar
+    ); 
 
     scaffoldKey.currentState.showSnackBar(snackbar);
   }
