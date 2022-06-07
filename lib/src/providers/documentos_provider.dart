@@ -6,9 +6,7 @@ import 'package:http_parser/http_parser.dart';
 import 'dart:io';
 import 'package:flutter_formulario/src/preferencias_usuario/preferencias_usuario.dart';
 
-/**
- * maneja los datos provenientes de la base de datos referente a documentos
- */
+/// maneja los datos provenientes de la base de datos referente a documentos
 class DocumentosProvider {
 	final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
 	final _prefs = new PreferenciasUsuario();
@@ -55,7 +53,7 @@ class DocumentosProvider {
 		return documentos;
 	}
 
-	Future <List<DocumentosModel>> cargarDocumento(String cedula) async{
+	Future <List<DocumentosModel>> cargarDocumento(String tipo,String numero) async{
 		final url = '$_url/documentos.json?auth=${ _prefs.token }';
 		final resp = await http.get(url);
 
@@ -67,7 +65,9 @@ class DocumentosProvider {
 		decodedData.forEach((id, doc){
 			final docTemp = DocumentosModel.fromJson(doc);
 
-			if (docTemp.cedula == cedula){
+      print(docTemp.numero);
+
+			if (docTemp.tipo == tipo && docTemp.numero == numero){
 				print("entra");
 				print(docTemp);
 				docTemp.id = id;

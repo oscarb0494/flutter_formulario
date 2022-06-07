@@ -6,91 +6,114 @@ import 'package:http_parser/http_parser.dart';
 import 'dart:io';
 import 'package:flutter_formulario/src/preferencias_usuario/preferencias_usuario.dart';
 
-
 class ObjetosProvider {
-	final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
-	final _prefs = new PreferenciasUsuario();
+  final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
+  final _prefs = new PreferenciasUsuario();
 
-	Future<bool> crearObjeto( ObjetoModel objeto ) async{
-		final url = '$_url/objetos.json?auth=${ _prefs.token }';
+  Future<bool> crearObjeto(ObjetoModel objeto) async {
+    final url = '$_url/objetos.json?auth=${_prefs.token}';
 
-		final resp = await http.post(url, body: objetoModelToJson(objeto) );
+    final resp = await http.post(url, body: objetoModelToJson(objeto));
 
-		final decodedData = json.decode(resp.body);
-		print( decodedData );
+    final decodedData = json.decode(resp.body);
+    print(decodedData);
 
-		return true;
-	}
+    return true;
+  }
 
-	Future<bool> editarObjeto( ObjetoModel objeto ) async{
-		final url = '$_url/objetos/${ objeto.id }.json?auth=${ _prefs.token }';
+  Future<bool> editarObjeto(ObjetoModel objeto) async {
+    final url = '$_url/objetos/${objeto.id}.json?auth=${_prefs.token}';
 
-		final resp = await http.put(url, body: objetoModelToJson(objeto) );
-		final decodedData = json.decode(resp.body);
-		
-		print( decodedData );
+    final resp = await http.put(url, body: objetoModelToJson(objeto));
+    final decodedData = json.decode(resp.body);
 
-		return true;
-	}
+    print(decodedData);
 
-	Future<List<ObjetoModel>> cargarObjetos() async{
-		final url = '$_url/objetos.json?auth=${ _prefs.token }';
-		final resp = await http.get(url);
+    return true;
+  }
 
-		final Map<String,dynamic> decodedData = json.decode(resp.body);
-		final List<ObjetoModel> objetos = new List();
+  Future<List<ObjetoModel>> cargarObjetos() async {
+    final url = '$_url/objetos.json?auth=${_prefs.token}';
+    final resp = await http.get(url);
 
-		if (decodedData == null ) return [];
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    final List<ObjetoModel> objetos = new List();
 
-		decodedData.forEach((id, obj ){
-			final objTemp = ObjetoModel.fromJson(obj);
-			objTemp.id = id;
+    if (decodedData == null) return [];
 
-			objetos.add( objTemp );
-		});
+    decodedData.forEach((id, obj) {
+      final objTemp = ObjetoModel.fromJson(obj);
+      objTemp.id = id;
 
-		print( objetos );
-		return objetos;
-	}
+      objetos.add(objTemp);
+    });
 
-	Future<int> borrarObjeto(String id) async{
-		final url = '$_url/objetos/$id.json?auth=${ _prefs.token }';
-		final resp = await http.delete(url);
+    print(objetos);
+    return objetos;
+  }
 
-		print( json.decode(resp.body) );
-		return 1;
-	}
+  Future<int> borrarObjeto(String id) async {
+    final url = '$_url/objetos/$id.json?auth=${_prefs.token}';
+    final resp = await http.delete(url);
 
-	Future<String> subirImagen(File imagen) async{
-		final url = Uri.parse('https://api.cloudinary.com/v1_1/dun3q6j0s/image/upload?upload_preset=voo4bmtg');
-		final mimeType = mime(imagen.path).split('/');
+    print(json.decode(resp.body));
+    return 1;
+  }
 
-		final imageUploadRequest = http.MultipartRequest(
-			'POST',
-			url
-		);
+  Future<String> subirImagen(File imagen) async {
+    final url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/dun3q6j0s/image/upload?upload_preset=voo4bmtg');
+    final mimeType = mime(imagen.path).split('/');
 
-		final file = await http.MultipartFile.fromPath(
-			'file',
-			imagen.path,
-			contentType: MediaType( mimeType[0], mimeType[1])
-		);
+    final imageUploadRequest = http.MultipartRequest('POST', url);
 
-		imageUploadRequest.files.add(file);
+    final file = await http.MultipartFile.fromPath('file', imagen.path,
+        contentType: MediaType(mimeType[0], mimeType[1]));
 
-		final streamResponse = await imageUploadRequest.send();
+    imageUploadRequest.files.add(file);
 
-		final resp = await http.Response.fromStream(streamResponse);
+    final streamResponse = await imageUploadRequest.send();
 
-		if (resp.statusCode != 200 && resp.statusCode != 201){
-			print('algo salio mal');
-			print(resp.body);
-			return null;
-		}
+    final resp = await http.Response.fromStream(streamResponse);
 
-		final respData = json.decode(resp.body);
-		print( respData );
+    if (resp.statusCode != 200 && resp.statusCode != 201) {
+      print('algo salio mal');
+      print(resp.body);
+      return null;
+    }
 
-		return respData['secure_url'];
-	}
+    final respData = json.decode(resp.body);
+    print(respData);
+
+    return respData['secure_url'];
+  }
+
+  /// retornan una lista de objetos que correspondan con las especificaciones enviadas
+  /// @categoria corresponde a la categoría del objeto que estamos buscando
+  /// 
+  Future<List<ObjetoModel>> buscarObjeto(
+      String categoria, String colorUno, String colorDos) async {
+    final url = '$_url/objetos.json?auth=${_prefs.token}';
+    final resp = await http.get(url);
+
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    final List<ObjetoModel> objetos = new List();
+
+    if (decodedData == null) return [];
+
+    decodedData.forEach((id, obj) {
+      final objTemp = ObjetoModel.fromJson(obj);
+
+      if (objTemp.colorUno == colorUno &&
+          objTemp.colorDos == colorDos &&
+          objTemp.categoria == categoria) {
+        print("entra");
+        print(objTemp);
+        objTemp.id = id;
+        objetos.add(objTemp);
+      }
+    });
+
+    return objetos;
+  }
 }

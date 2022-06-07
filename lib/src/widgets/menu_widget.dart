@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formulario/src/pages/home_page.dart';
-import 'package:flutter_formulario/src/pages/llave_page.dart';
-import 'package:flutter_formulario/src/pages/objeto_page.dart';
 
 class MenuWidget extends StatelessWidget{
 	@override
@@ -16,21 +13,21 @@ class MenuWidget extends StatelessWidget{
 							image: DecorationImage(
 								image: AssetImage('assets/menu-img.jpg'),
 								fit: BoxFit.cover
-							) //decorationImage
-						), //boxDecoration  
-					), //DrawerHeader
+							)
+						), 
+					), 
 
 					ListTile(
 						leading: Icon(Icons.pages, color: Colors.blue),
 						title: Text('Home'),
 						onTap: ()=> Navigator.pushReplacementNamed(context, 'home' ),
-					), //ListTile
+					), 
 
 					ListTile(
 						leading: Icon(Icons.party_mode, color: Colors.blue),
 						title: Text('Party Mode'),
 						onTap: (){ },
-					), //ListTile
+					), 
 
 					ListTile(
 						leading: Icon(Icons.people, color: Colors.blue),
@@ -38,7 +35,7 @@ class MenuWidget extends StatelessWidget{
 						onTap: (){
 							Navigator.pushReplacementNamed(context, 'objeto');
 						},
-					), //ListTile
+					), 
 
 					ListTile(
 						leading: Icon(Icons.settings, color: Colors.blue),
@@ -47,7 +44,7 @@ class MenuWidget extends StatelessWidget{
 							//Navigator.pop(context);
 							Navigator.pushReplacementNamed(context, 'llave');
 						},
-					), //ListTile
+					), 
 
 					ListTile(
 						leading: Icon(Icons.settings, color: Colors.blue),
@@ -56,7 +53,7 @@ class MenuWidget extends StatelessWidget{
 							//Navigator.pop(context);
 							Navigator.pushReplacementNamed(context, 'scroll');
 						},
-					), //ListTile
+					), 
 
 					ListTile(
 						leading: Icon(Icons.settings, color: Colors.blue),
@@ -65,10 +62,10 @@ class MenuWidget extends StatelessWidget{
 							//Navigator.pop(context);
 							Navigator.pushReplacementNamed(context, 'documento_register');
 						},
-					), //ListTile
+					), 
 
-				], // </Widhet>[]
-			), //ListView
-		); //Drawer
+				], 
+			), 
+		); 
 	}
 }

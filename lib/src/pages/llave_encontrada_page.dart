@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formulario/src/models/documentos_model.dart';
-import 'package:flutter_formulario/src/providers/documentos_provider.dart';
+import 'package:flutter_formulario/src/models/llave_model.dart';
+import 'package:flutter_formulario/src/providers/llaves_provider.dart';
 import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
 /// pagina para la visualización de los objetos encontrados (aplicaria para documentos)
-class BasicoPage extends StatelessWidget {
+class LlaveEncontradaPage extends StatelessWidget {
   final estiloTitulo = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
   final estiloSubTitulo = TextStyle(fontSize: 18.0, color: Colors.grey);
 
-  final documentosProvider = new DocumentosProvider();
+  final llavesProvider = new LlavesProvider();
 
-  final String tipo;
   final String data;
 
-  BasicoPage({this.tipo,this.data});
+  LlaveEncontradaPage({this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +26,16 @@ class BasicoPage extends StatelessWidget {
   /// crea el listado de objetos encontrados con caracteristicas similares a las diligenciadas en el formulario
   Widget _crearListadoDocumentos() {
     return FutureBuilder(
-        future: documentosProvider.cargarDocumento(tipo,data),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<DocumentosModel>> snapshot) {
+        future: llavesProvider.buscarLlave(data),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<LlaveModel>> snapshot) {
           if (snapshot.hasData) {
-            final documentos = snapshot.data;
+            final llaves = snapshot.data;
 
             return ListView.builder(
-              itemCount: documentos.length,
+              itemCount: llaves.length,
               itemBuilder: (context, i) =>
-                  _crearItemDocumento(context, documentos[i]),
+                  _crearItemDocumento(context, llaves[i]),
             );
           } else {
             return Center(
@@ -51,25 +50,25 @@ class BasicoPage extends StatelessWidget {
   /// @context contexto de uso de la aplicación.
   /// @documento corresponde la información del documento encontrado.
   ///
-  Widget _crearItemDocumento(BuildContext context, DocumentosModel documento) {
+  Widget _crearItemDocumento(BuildContext context, LlaveModel llave) {
     return Dismissible(
         key: UniqueKey(),
         background: Container(
           color: Colors.red,
         ),
         onDismissed: (direccion) {
-          documentosProvider.borrarDocumento(documento.id);
+          llavesProvider.borrarLlave(llave.id);
         },
         child: Card(
           child: Column(
             children: <Widget>[
-              _crearImagen(context),
+              _crearImagen(context,llave.fotoUrl),
               _crearAcciones(context),
               _crearTexto(),
               ListTile(
                 subtitle: Text('disponible'),
                 title: Text(
-                    '\n Puedes contactarte a este numero, una persona lo ha encontrado \n Contacto: ${documento.celular}'),
+                    '\n Puedes contactarte a este numero, una persona lo ha encontrado \n Contacto: ${llave.id}'),
               ),
             ],
           ),
@@ -79,14 +78,14 @@ class BasicoPage extends StatelessWidget {
   /// despliega una imagen del objeto encontrado (no aplica para documentos)
   /// en el caso de documentos despliega una imagen base
   /// @context contexto de uso de la aplicación.
-  Widget _crearImagen(BuildContext context) {
+  Widget _crearImagen(BuildContext context, String imageAddress) {
     return Container(
       width: double.infinity,
       child: GestureDetector(
         onTap: () => Navigator.pushNamed(context, 'scroll'),
         child: Image(
           image: NetworkImage(
-              'https://res.cloudinary.com/universidaddecaldasflutter/image/upload/v1652284044/cedula_oqptwl.png'),
+              imageAddress),
           height: 200.0,
           fit: BoxFit.cover,
         ),

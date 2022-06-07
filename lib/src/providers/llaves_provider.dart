@@ -7,89 +7,107 @@ import 'dart:io';
 import 'package:flutter_formulario/src/preferencias_usuario/preferencias_usuario.dart';
 
 class LlavesProvider {
-	final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
-	final _prefs = new PreferenciasUsuario();
+  final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
+  final _prefs = new PreferenciasUsuario();
 
-	Future<bool> crearLlave( LlaveModel llave ) async{
-		final url = '$_url/llaves.json?auth=${ _prefs.token }';
+  Future<bool> crearLlave(LlaveModel llave) async {
+    final url = '$_url/llaves.json?auth=${_prefs.token}';
 
-		final resp = await http.post(url, body: llaveModelToJson(llave) );
+    final resp = await http.post(url, body: llaveModelToJson(llave));
 
-		final decodedData = json.decode(resp.body);
-		print( decodedData );
+    final decodedData = json.decode(resp.body);
+    print(decodedData);
 
-		return true;
-	}
+    return true;
+  }
 
-	Future<bool> editarLlave( LlaveModel llave ) async{
-		final url = '$_url/llaves/${ llave.id }.json?auth=${ _prefs.token }';
+  Future<bool> editarLlave(LlaveModel llave) async {
+    final url = '$_url/llaves/${llave.id}.json?auth=${_prefs.token}';
 
-		final resp = await http.put(url, body: llaveModelToJson(llave) );
-		final decodedData = json.decode(resp.body);
-		
-		print( decodedData );
+    final resp = await http.put(url, body: llaveModelToJson(llave));
+    final decodedData = json.decode(resp.body);
 
-		return true;
-	}
+    print(decodedData);
 
-	Future<List<LlaveModel>> cargarLlaves() async{
-		final url = '$_url/llaves.json?auth=${ _prefs.token }';
-		final resp = await http.get(url);
+    return true;
+  }
 
-		final Map<String,dynamic> decodedData = json.decode(resp.body);
-		final List<LlaveModel> llaves = new List();
+  Future<List<LlaveModel>> cargarLlaves() async {
+    final url = '$_url/llaves.json?auth=${_prefs.token}';
+    final resp = await http.get(url);
 
-		if (decodedData == null ) return [];
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    final List<LlaveModel> llaves = new List();
 
-		decodedData.forEach((id, prod ){
-			final prodTemp = LlaveModel.fromJson(prod);
-			prodTemp.id = id;
+    if (decodedData == null) return [];
 
-			llaves.add( prodTemp );
-		});
+    decodedData.forEach((id, prod) {
+      final prodTemp = LlaveModel.fromJson(prod);
+      prodTemp.id = id;
 
-		print( llaves );
-		return llaves;
-	}
+      llaves.add(prodTemp);
+    });
 
-	Future<int> borrarLlave(String id) async{
-		final url = '$_url/llaves/$id.json?auth=${ _prefs.token }';
-		final resp = await http.delete(url);
+    print(llaves);
+    return llaves;
+  }
 
-		print( json.decode(resp.body) );
-		return 1;
-	}
+  Future<int> borrarLlave(String id) async {
+    final url = '$_url/llaves/$id.json?auth=${_prefs.token}';
+    final resp = await http.delete(url);
 
-	Future<String> subirImagen(File imagen) async{
-		final url = Uri.parse('https://api.cloudinary.com/v1_1/dun3q6j0s/image/upload?upload_preset=voo4bmtg');
-		final mimeType = mime(imagen.path).split('/');
+    print(json.decode(resp.body));
+    return 1;
+  }
 
-		final imageUploadRequest = http.MultipartRequest(
-			'POST',
-			url
-		);
+  Future<String> subirImagen(File imagen) async {
+    final url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/dun3q6j0s/image/upload?upload_preset=voo4bmtg');
+    final mimeType = mime(imagen.path).split('/');
 
-		final file = await http.MultipartFile.fromPath(
-			'file',
-			imagen.path,
-			contentType: MediaType( mimeType[0], mimeType[1])
-		);
+    final imageUploadRequest = http.MultipartRequest('POST', url);
 
-		imageUploadRequest.files.add(file);
+    final file = await http.MultipartFile.fromPath('file', imagen.path,
+        contentType: MediaType(mimeType[0], mimeType[1]));
 
-		final streamResponse = await imageUploadRequest.send();
+    imageUploadRequest.files.add(file);
 
-		final resp = await http.Response.fromStream(streamResponse);
+    final streamResponse = await imageUploadRequest.send();
 
-		if (resp.statusCode != 200 && resp.statusCode != 201){
-			print('algo salio mal');
-			print(resp.body);
-			return null;
-		}
+    final resp = await http.Response.fromStream(streamResponse);
 
-		final respData = json.decode(resp.body);
-		print( respData );
+    if (resp.statusCode != 200 && resp.statusCode != 201) {
+      print('algo salio mal');
+      print(resp.body);
+      return null;
+    }
 
-		return respData['secure_url'];
-	}
+    final respData = json.decode(resp.body);
+    print(respData);
+
+    return respData['secure_url'];
+  }
+
+  Future<List<LlaveModel>> buscarLlave(String colorUno) async {
+    final url = '$_url/llaves.json?auth=${_prefs.token}';
+    final resp = await http.get(url);
+
+    final Map<String, dynamic> decodedData = json.decode(resp.body);
+    final List<LlaveModel> llaves = new List();
+
+    if (decodedData == null) return [];
+
+    decodedData.forEach((id, key) {
+      final docTemp = LlaveModel.fromJson(key);
+
+      if (docTemp.colorUno == colorUno) {
+        print("entra");
+        print(docTemp);
+        docTemp.id = id;
+        llaves.add(docTemp);
+      }
+    });
+
+    return llaves;
+  }
 }

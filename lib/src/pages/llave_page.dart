@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_formulario/src/utils/bottomNavigationBar.dart';
+import 'package:flutter_formulario/src/utils/utils.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -9,24 +11,25 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter_formulario/src/utils/campos.dart';
 import 'package:flutter_formulario/src/utils/fondo.dart';
 
-/**
- * no aplica para la primera iteracción
- */
+import 'llave_encontrada_page.dart';
+
+/// no aplica para la primera iteracción
 class LlavePage extends StatefulWidget {
+  final bool estado;
+
+  LlavePage({this.estado});
+
   @override
-  _LlavePageState createState() => _LlavePageState();
+  _LlavePageState createState() => _LlavePageState(estado: this.estado);
 }
 
 class _LlavePageState extends State<LlavePage> {
-  String dropdownvalue = 'Apple';
-  var items = [
-    'Apple',
-    'Banana',
-    'Grapes',
-    'Orange',
-    'watermelon',
-    'Pineapple'
-  ];
+  final bool estado;
+
+  _LlavePageState({this.estado});
+
+  String dropdownvalue = 'Patrón';
+  var items = ['Patrón', 'Antigua', 'Moderna', 'Lisas', 'Normal', 'Pequeña'];
 
 // Color for the picker shown in Card on the screen.
   Color screenPickerColor;
@@ -43,6 +46,7 @@ class _LlavePageState extends State<LlavePage> {
 
   LlaveModel llave = new LlaveModel();
   bool _guardando = false;
+  bool _buscar = false;
   File foto;
 
   static const Color guidePrimary = Color(0xFF6200EE);
@@ -88,46 +92,84 @@ class _LlavePageState extends State<LlavePage> {
       llave = llaveData;
     }
 
+    if (this.estado == true) {
+      return Scaffold(
+          key: scaffoldKey,
+          body: Stack(children: <Widget>[
+            fondoApp(),
+            Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.all(15.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: <Widget>[
+                        _mostrarFoto(),
+                        _crearColorUno(),
+                        _crearColorDos(),
+                        _crearPatron(),
+                        _crearMarca(),
+                        _crearUso(),
+                        _crearDisponible(),
+                        _crearBoton(),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ]),
+          appBar: AppBar(
+            title: Text('llave'),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.photo_size_select_actual),
+                onPressed: _seleccionarFoto,
+              ),
+              IconButton(
+                icon: Icon(Icons.camera_alt),
+                onPressed: _tomarFoto,
+              )
+            ],
+          ),
+          bottomNavigationBar: bottomNavigationBar(context));
+    }
+
     return Scaffold(
-      key: scaffoldKey,
-      body: Stack(children: <Widget>[
-        fondoApp(),
-        Center(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.all(15.0),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: <Widget>[
-                    _mostrarFoto(),
-                    _crearColorUno(),
-                    _crearColorDos(),
-                    _crearPatron(),
-                    _crearUso(),
-                    _crearDisponible(),
-                    _crearBoton(),
-                  ],
+        key: scaffoldKey,
+        body: Stack(children: <Widget>[
+          fondoApp(),
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.all(15.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      _crearColorUno(),
+                      _crearColorDos(),
+                      _crearPatron(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _crearMarca(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _crearBotonBuscar(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        )
-      ]),
-      appBar: AppBar(
-        title: Text('llave'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo_size_select_actual),
-            onPressed: _seleccionarFoto,
-          ),
-          IconButton(
-            icon: Icon(Icons.camera_alt),
-            onPressed: _tomarFoto,
           )
-        ],
-      ),
-    );
+        ]),
+        appBar: AppBar(
+          title: Text('llave'),
+        ),
+        bottomNavigationBar: bottomNavigationBar(context));
   }
 
   Widget _crearColorUno() {
@@ -154,7 +196,7 @@ class _LlavePageState extends State<LlavePage> {
               onColorChanged: (Color color) => {
                     setState(() => screenPickerColor = color),
                     llave.colorUno =
-                        '${ColorTools.materialNameAndCode(dialogSelectColor, colorSwatchNameMap: colorsNameMap)}'
+                        '${ColorTools.materialNameAndCode(screenPickerColor, colorSwatchNameMap: colorsNameMap)}'
                   },
               width: 20,
               height: 20,
@@ -166,21 +208,6 @@ class _LlavePageState extends State<LlavePage> {
         ),
       ),
     );
-    /**return TextFormField(
-			initialValue: llave.colorUno,
-			textCapitalization: TextCapitalization.sentences,
-			decoration: InputDecoration(
-				labelText: 'color uno'
-			), //InputDecoration
-			onSaved: (value) => llave.colorUno = value,
-			validator: (value){
-				if ( value.length < 3){
-					return 'ingrese el color uno';
-				} else{
-					return null;
-				}
-			},
-		); */
   }
 
   Widget _crearColorDos() {
@@ -221,22 +248,6 @@ class _LlavePageState extends State<LlavePage> {
         ),
       ),
     );
-    /**
-		return TextFormField(
-			initialValue: llave.colorDos,
-			textCapitalization: TextCapitalization.sentences,
-			decoration: InputDecoration(
-				labelText: 'color dos'
-			), 
-			onSaved: (value) => llave.colorDos = value,
-			validator: (value){
-				if ( value.length < 3){
-					return 'ingrese el color dos';
-				} else{
-					return null;
-				}
-			},
-		); */
   }
 
   Widget _crearPatron() {
@@ -253,23 +264,30 @@ class _LlavePageState extends State<LlavePage> {
         });
       },
     );
+  }
 
-    /**
-		return TextFormField(
-			initialValue: llave.patron,
-			textCapitalization: TextCapitalization.sentences,
-			decoration: InputDecoration(
-				labelText: 'patron'
-			), 
-			onSaved: (value) => llave.patron = value,
-			validator: (value){
-				if ( value.length < 3){
-					return 'ingrese el paton de la llave';
-				} else{
-					return null;
-				}
-			},
-		);*/
+  Widget _crearMarca() {
+    return TextFormField(
+      initialValue: llave.uso,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.people),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
+        labelText: 'uso',
+      ),
+      onSaved: (value) => llave.uso = value,
+      validator: (value) {
+        if (value.length < 3) {
+          return 'ingrese marca de la llave';
+        } else {
+          return null;
+        }
+      },
+    );
   }
 
   Widget _crearUso() {
@@ -318,6 +336,18 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  Widget _crearBotonBuscar() {
+    return RaisedButton(
+      shape: StadiumBorder(),
+      color: Colors.blue,
+      textColor: Colors.white,
+      child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+          child: Text('Buscar', style: TextStyle(fontSize: 20.0))),
+      onPressed: (_buscar) ? null : _submitBuscar,
+    );
+  }
+
   void _submit() async {
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
@@ -342,6 +372,45 @@ class _LlavePageState extends State<LlavePage> {
     mostrarSnackbar('registro guardado');
 
     Navigator.pop(context);
+  }
+
+  Future<Map<String, dynamic>> existe(String colorUno) async {
+    List<LlaveModel> info = await llaveProvider.buscarLlave(colorUno);
+
+    if (info.isNotEmpty) {
+      return {'ok': true};
+    }
+    return {'ok': false};
+  }
+
+  void _submitBuscar() async {
+    print(llave.colorUno);
+    if (!formKey.currentState.validate()) return;
+    formKey.currentState.save();
+
+    setState(() {
+      _buscar = true;
+    });
+
+    if (llave.colorUno != ' ') {
+      setState(() {
+        _buscar = false;
+      });
+
+      Map info = await existe(llave.colorUno);
+
+      if (info['ok']) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => LlaveEncontradaPage(
+                    data: llave.colorUno,
+                  )),
+        );
+      } else {
+        mostrarAlerta(context, 'documento no encontrado');
+      }
+    }
   }
 
   void mostrarSnackbar(String mensaje) {

@@ -3,9 +3,7 @@ import 'package:flutter_formulario/src/bloc/provider.dart';
 import 'package:flutter_formulario/src/providers/usuarios_provider.dart';
 import 'package:flutter_formulario/src/utils/utils.dart';
 
-/**
- * no aplica para la primera iteracción
- */
+/// no aplica para la primera iteracción
 class LoginPage extends StatelessWidget {
   final usuarioProvider = new UsuarioProvider();
 

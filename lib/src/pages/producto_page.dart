@@ -11,9 +11,7 @@ class ProductoPage extends StatefulWidget {
   _ProductoPageState createState() => _ProductoPageState();
 }
 
-/**
- * no aplica para la primera iteracción
- */
+/// no aplica para la primera iteracción
 class _ProductoPageState extends State<ProductoPage> {
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();

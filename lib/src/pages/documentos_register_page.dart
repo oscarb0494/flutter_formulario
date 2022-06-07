@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_formulario/src/models/documentos_model.dart';
 import 'package:flutter_formulario/src/providers/documentos_provider.dart';
+import 'package:flutter_formulario/src/utils/campos.dart';
+import 'package:flutter_formulario/src/utils/fondo.dart';
 
-/**
- * no aplica para la primera iteracción
- */
+/// posiblemente se debe eliminar no aplica para la primera iteracción
 class DocumentosRegisterPage extends StatefulWidget {
   @override
   _DocumentosRegisterPageState createState() => _DocumentosRegisterPageState();
@@ -21,6 +20,17 @@ class _DocumentosRegisterPageState extends State<DocumentosRegisterPage> {
   DocumentosModel documento = new DocumentosModel();
   bool _guardando = false;
   File foto;
+
+  String dropdownvalue = 'Tipo de documento';
+  var items = [
+    'Tipo de documento',
+    'Tarjeta de identidad',
+    'C.C.',
+    'C.E.',
+    'Pasaporte',
+    'Nit',
+    'Licencia de conducción'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -36,29 +46,68 @@ class _DocumentosRegisterPageState extends State<DocumentosRegisterPage> {
       appBar: AppBar(
         title: Text('documento'),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(15.0),
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: <Widget>[
-                _crearCedula(),
-                _crearBoton(),
-              ],
+      body: Stack(children: <Widget>[
+        fondoApp(),
+        Center(
+            child: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(15.0),
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: <Widget>[
+                  _crearTipo(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _crearCedula(),
+                  _crearBoton(),
+                ],
+              ),
             ),
           ),
-        ),
+        ))
+      ]),
+    );
+  }
+
+  Widget _crearTipo() {
+    return DropdownButtonFormField(
+      value: dropdownvalue,
+      icon: Icon(Icons.keyboard_arrow_down),
+      items: items.map((String items) {
+        return DropdownMenuItem(value: items, child: Text(items));
+      }).toList(),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.people),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
       ),
+      onChanged: (String newValue) {
+        setState(() {
+          documento.tipo = newValue;
+          dropdownvalue = newValue;
+        });
+      },
     );
   }
 
   Widget _crearCedula() {
     return TextFormField(
-      initialValue: documento.cedula,
+      initialValue: documento.numero,
       textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(labelText: 'cedula'),
-      onSaved: (value) => documento.cedula = value,
+      decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          prefixIcon: Icon(Icons.people),
+          border: myinputborder(),
+          enabledBorder: myinputborder(),
+          focusedBorder: myfocusborder(),
+          labelText: 'cedula'),
+      onSaved: (value) => documento.numero = value,
       validator: (value) {
         if (value.length < 3) {
           return 'ingrese la cedula que encontro';

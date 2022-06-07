@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_formulario/src/pages/botones_page.dart';
 
 /**
  * 
@@ -66,17 +67,43 @@ class ScrollPage extends StatelessWidget {
       height: double.infinity,
       color: Color.fromRGBO(108, 192, 218, 1.0),
       child: Center(
-        child: RaisedButton(
-          shape: StadiumBorder(),
-          color: Colors.blue,
-          textColor: Colors.white,
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-              child: Text('Estoy buscando algo!!!',
-                  style: TextStyle(fontSize: 20.0))),
-          onPressed: () => Navigator.pushNamed(context, 'botones'),
-        ),
-      ),
+          child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 120,
+          ),
+          RaisedButton(
+            shape: StadiumBorder(),
+            color: Colors.blue,
+            textColor: Colors.white,
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                child: Text('Estoy buscando algo',
+                    style: TextStyle(fontSize: 20.0))),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BotonesPage(estado: false)),
+            ),
+          ),
+          SizedBox(
+            height: 60,
+          ),
+          RaisedButton(
+            shape: StadiumBorder(),
+            color: Colors.blue,
+            textColor: Colors.white,
+            child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+                child: Text('Encontré algo', style: TextStyle(fontSize: 20.0))),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BotonesPage(estado: true)),
+            ),
+          )
+        ],
+      )),
     );
   }
 }

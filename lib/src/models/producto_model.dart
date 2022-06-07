@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+
+/// elminar modelo
 ProductoModel productoModelFromJson(String str) => ProductoModel.fromJson(json.decode(str));
 
 String productoModelToJson(ProductoModel data) => json.encode(data.toJson());

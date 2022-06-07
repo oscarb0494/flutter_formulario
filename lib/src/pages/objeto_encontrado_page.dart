@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formulario/src/models/documentos_model.dart';
-import 'package:flutter_formulario/src/providers/documentos_provider.dart';
+import 'package:flutter_formulario/src/models/objeto_model.dart';
+import 'package:flutter_formulario/src/providers/objetos_provider.dart';
 import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
 /// pagina para la visualización de los objetos encontrados (aplicaria para documentos)
-class BasicoPage extends StatelessWidget {
+class ObjetoEncontradoPage extends StatelessWidget {
   final estiloTitulo = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
   final estiloSubTitulo = TextStyle(fontSize: 18.0, color: Colors.grey);
 
-  final documentosProvider = new DocumentosProvider();
+  final objetosProvider = new ObjetosProvider();
 
-  final String tipo;
-  final String data;
+  final String categoria;
+  final String colorUno;
+  final String colorDos;
 
-  BasicoPage({this.tipo,this.data});
+  ObjetoEncontradoPage({this.categoria,this.colorUno,this.colorDos});
 
   @override
   Widget build(BuildContext context) {
@@ -27,21 +28,21 @@ class BasicoPage extends StatelessWidget {
   /// crea el listado de objetos encontrados con caracteristicas similares a las diligenciadas en el formulario
   Widget _crearListadoDocumentos() {
     return FutureBuilder(
-        future: documentosProvider.cargarDocumento(tipo,data),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<DocumentosModel>> snapshot) {
+        future: objetosProvider.buscarObjeto(categoria, colorUno, colorDos),
+        builder:
+            (BuildContext context, AsyncSnapshot<List<ObjetoModel>> snapshot) {
           if (snapshot.hasData) {
-            final documentos = snapshot.data;
+            final objetos = snapshot.data;
 
             return ListView.builder(
-              itemCount: documentos.length,
+              itemCount: objetos.length,
               itemBuilder: (context, i) =>
-                  _crearItemDocumento(context, documentos[i]),
+                  _crearItemDocumento(context, objetos[i]),
             );
           } else {
             return Center(
                 child: Text(
-                    "la cedula con numero: " + data + " no fue encontrada"));
+                    "no fue encontrado ningun elemento en esta " + categoria));
           }
         });
   }
@@ -51,25 +52,25 @@ class BasicoPage extends StatelessWidget {
   /// @context contexto de uso de la aplicación.
   /// @documento corresponde la información del documento encontrado.
   ///
-  Widget _crearItemDocumento(BuildContext context, DocumentosModel documento) {
+  Widget _crearItemDocumento(BuildContext context, ObjetoModel objeto) {
     return Dismissible(
         key: UniqueKey(),
         background: Container(
           color: Colors.red,
         ),
         onDismissed: (direccion) {
-          documentosProvider.borrarDocumento(documento.id);
+          objetosProvider.borrarObjeto(objeto.id);
         },
         child: Card(
           child: Column(
             children: <Widget>[
-              _crearImagen(context),
+              _crearImagen(context,objeto.fotoUrl),
               _crearAcciones(context),
               _crearTexto(),
               ListTile(
                 subtitle: Text('disponible'),
                 title: Text(
-                    '\n Puedes contactarte a este numero, una persona lo ha encontrado \n Contacto: ${documento.celular}'),
+                    '\n Puedes contactarte a este numero, una persona lo ha encontrado \n Contacto: ${objeto.id}'),
               ),
             ],
           ),
@@ -79,14 +80,14 @@ class BasicoPage extends StatelessWidget {
   /// despliega una imagen del objeto encontrado (no aplica para documentos)
   /// en el caso de documentos despliega una imagen base
   /// @context contexto de uso de la aplicación.
-  Widget _crearImagen(BuildContext context) {
+  Widget _crearImagen(BuildContext context, String imageAddress) {
     return Container(
       width: double.infinity,
       child: GestureDetector(
         onTap: () => Navigator.pushNamed(context, 'scroll'),
         child: Image(
           image: NetworkImage(
-              'https://res.cloudinary.com/universidaddecaldasflutter/image/upload/v1652284044/cedula_oqptwl.png'),
+              imageAddress),
           height: 200.0,
           fit: BoxFit.cover,
         ),
@@ -134,7 +135,7 @@ class BasicoPage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0),
         child: Text(
-          data,
+          categoria,
           textAlign: TextAlign.justify,
         ),
       ),

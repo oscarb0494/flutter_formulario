@@ -1,34 +1,54 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_formulario/src/models/documentos_model.dart';
 import 'dart:io';
 
 import 'package:flutter_formulario/src/providers/documentos_provider.dart';
+import 'package:flutter_formulario/src/utils/bottomNavigationBar.dart';
 import 'package:flutter_formulario/src/utils/utils.dart';
 import 'package:flutter_formulario/src/utils/fondo.dart';
 import 'package:flutter_formulario/src/utils/campos.dart';
 import 'package:flutter_formulario/src/pages/basico_page.dart';
 
-/**
- * pagina para el ingreso del documento que desemos buscar
- * la pagina despliega un formulario con un campo para ingresar el número del documento buscado.
- * si el documento es encontrado dirige a la pagina BasicoPage
- * si el documento no se encuentra en la base de datos despliega un aviso indicando la situación.
- */
+/// pagina para el ingreso del documento que desemos buscar o registrar
+/// la pagina despliega una dropdown-menu para elegir el tipo de documento
+/// la pagina despliega un un campo para ingresar el número del documento
+/// si el documento es encontrado dirige a la pagina BasicoPage
+/// si el documento no se encuentra en la base de datos despliega un aviso indicando la situación.
 class DocumentosPage extends StatefulWidget {
+  final bool estado;
+
+  DocumentosPage({this.estado});
+
   @override
-  _DocumentoPageState createState() => _DocumentoPageState();
+  _DocumentoPageState createState() => _DocumentoPageState(estado: this.estado);
 }
 
 class _DocumentoPageState extends State<DocumentosPage> {
+  final bool estado;
+
+  _DocumentoPageState({this.estado});
+
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final documentoProvider = new DocumentosProvider();
 
   DocumentosModel documento = new DocumentosModel();
   bool _buscar = false;
+  bool _guardando = false;
   File foto;
+
+  String dropdownvalue = 'Tipo de documento';
+  var items = [
+    'Tipo de documento',
+    'Tarjeta de identidad',
+    'C.C.',
+    'C.E.',
+    'Pasaporte',
+    'Nit',
+    'Licencia de conducción'
+  ];
+
+  String titulo = "buscando documento";
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +72,10 @@ class _DocumentoPageState extends State<DocumentosPage> {
                         child: Column(
                           children: <Widget>[
                             _titulos(),
+                            _crearTipo(),
+                            SizedBox(
+                              height: 20,
+                            ),
                             _digitarCedula(),
                             SizedBox(
                               height: 30,
@@ -63,17 +87,22 @@ class _DocumentoPageState extends State<DocumentosPage> {
             )
           ],
         ),
-        bottomNavigationBar: _bottomNavigationBar(context));
+        bottomNavigationBar: bottomNavigationBar(context));
   }
 
+  /// grafica los titulos de la sección
   Widget _titulos() {
+    if (this.estado == false) {
+      titulo = "registrando documento";
+    }
+
     return SafeArea(
       child: Container(
         padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('buscando documento',
+            Text(titulo,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 30.0,
@@ -85,30 +114,35 @@ class _DocumentoPageState extends State<DocumentosPage> {
     );
   }
 
-  Widget _bottomNavigationBar(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-          canvasColor: Color.fromRGBO(55, 57, 84, 1.0),
-          primaryColor: Colors.pinkAccent,
-          textTheme: Theme.of(context).textTheme.copyWith(
-              caption: TextStyle(color: Color.fromRGBO(116, 117, 152, 1.0)))),
-      child: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.calendar_today, size: 30.0), title: Container()),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bubble_chart, size: 30.0), title: Container()),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle, size: 30.0),
-              title: Container()),
-        ],
+  /// despliega la el dropdown con las opciones tipo de documento
+  /// las opciones incluyen
+  Widget _crearTipo() {
+    return DropdownButtonFormField(
+      value: dropdownvalue,
+      icon: Icon(Icons.keyboard_arrow_down),
+      items: items.map((String items) {
+        return DropdownMenuItem(value: items, child: Text(items));
+      }).toList(),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.people),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
       ),
+      onChanged: (String newValue) {
+        setState(() {
+          documento.tipo = newValue;
+          dropdownvalue = newValue;
+        });
+      },
     );
   }
 
   Widget _digitarCedula() {
     return TextFormField(
-      initialValue: documento.cedula,
+      initialValue: documento.numero,
       keyboardType: TextInputType.number,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
@@ -120,7 +154,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
         focusedBorder: myfocusborder(), //focused border
         labelText: 'Cedula',
       ),
-      onSaved: (value) => documento.cedula = value,
+      onSaved: (value) => documento.numero = value,
       validator: (value) {
         if (value.length < 3) {
           return 'Digite el numero';
@@ -131,24 +165,34 @@ class _DocumentoPageState extends State<DocumentosPage> {
     );
   }
 
-/**
- * despliega el botón para enviar el formulario.
- */
+  /// despliega el botón para enviar el formulario.
   Widget _crearBoton() {
-    return RaisedButton(
-      shape: StadiumBorder(),
-      color: Colors.blue,
-      textColor: Colors.white,
-      child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
-          child: Text('Buscar', style: TextStyle(fontSize: 20.0))),
-      onPressed: (_buscar) ? null : _submit,
-    );
+    if (this.estado == true) {
+      return RaisedButton(
+        shape: StadiumBorder(),
+        color: Colors.blue,
+        textColor: Colors.white,
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+            child: Text('Buscar', style: TextStyle(fontSize: 20.0))),
+        onPressed: (_buscar) ? null : _submitBuscar,
+      );
+    } else {
+      return RaisedButton.icon(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        color: Colors.deepPurple,
+        textColor: Colors.white,
+        label: Text('guardar'),
+        icon: Icon(Icons.save),
+        onPressed: (_guardando) ? null : _submitRegistrar,
+      );
+    }
   }
 
-  Future<Map<String, dynamic>> existe(String cedula) async {
+  Future<Map<String, dynamic>> existe(String tipo, String numero) async {
     List<DocumentosModel> info =
-        await documentoProvider.cargarDocumento(cedula);
+        await documentoProvider.cargarDocumento(tipo, numero);
 
     if (info.isNotEmpty) {
       return {'ok': true};
@@ -156,12 +200,10 @@ class _DocumentoPageState extends State<DocumentosPage> {
     return {'ok': false};
   }
 
-/**
- * verifica que el formulario se halla llenado correctamente
- * si el documento existe en la base de datos, dirige a la pagina BasicoPage
- * si el documento no se ha encontrado se muestra una alerta
- */
-  void _submit() async {
+  /// verifica que el formulario se halla llenado correctamente
+  /// si el documento existe en la base de datos, dirige a la pagina BasicoPage
+  /// si el documento no se ha encontrado se muestra una alerta
+  void _submitBuscar() async {
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
 
@@ -170,30 +212,57 @@ class _DocumentoPageState extends State<DocumentosPage> {
     });
     DocumentosModel doc = null;
 
-    if (documento.cedula != ' ') {
+    if (documento.numero != ' ') {
       setState(() {
         _buscar = false;
       });
 
-      Map info = await existe(documento.cedula);
+      Map info = await existe(documento.tipo, documento.numero);
 
       if (info['ok']) {
         Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => BasicoPage(
-                    data: documento.cedula,
+                    tipo: documento.tipo,
+                    data: documento.numero,
                   )),
         );
       } else {
-        mostrarAlerta(context, 'cedula no encontrada');
+        mostrarAlerta(context, 'documento no encontrado');
       }
     }
   }
 
-/**
- * mensaje de alerta
- */
+  /// valida y registra un nuevo documento en base a los valores ingresados.
+  /// si el documento se registro correctamente despliega un mensaje confirmado la operación
+  void _submitRegistrar() async {
+    if (!formKey.currentState.validate()) return;
+    formKey.currentState.save();
+
+    setState(() {
+      _guardando = true;
+    });
+
+    if (foto != null) {
+      documento.fotoUrl = await documentoProvider.subirImagen(foto);
+    }
+
+    if (documento.id == null) {
+      documentoProvider.crearDocumento(documento);
+    } else {
+      documentoProvider.editarDocumento(documento);
+    }
+
+    setState(() {
+      _guardando = false;
+    });
+    mostrarSnackbar('registro guardado');
+
+    Navigator.pop(context);
+  }
+
+  /// mensaje de alerta
   void mostrarSnackbar(String mensaje) {
     final snackbar = SnackBar(
       content: Text(mensaje),

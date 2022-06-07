@@ -8,9 +8,7 @@ import 'package:flutter_formulario/src/models/llave_model.dart';
 import 'package:flutter_formulario/src/models/objeto_model.dart';
 import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
-/**
- * no aplica para la primera iteracción
- */
+/// no aplica para la primera iteracción
 class HomePage extends StatelessWidget {
   final productosProvider = new ProductosProvider();
   final llavesProvider = new LlavesProvider();
@@ -180,7 +178,7 @@ class HomePage extends StatelessWidget {
                     ), //FadeInImage
               ListTile(
                 title: Text(
-                    '${objeto.colorUno} - ${objeto.colorDos} - ${objeto.texto}'),
+                    '${objeto.colorUno} - ${objeto.colorDos} - ${objeto.descripcion}'),
                 subtitle: Text(objeto.id),
                 onTap: () =>
                     Navigator.pushNamed(context, 'objeto', arguments: objeto),

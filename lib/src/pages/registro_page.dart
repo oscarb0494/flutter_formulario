@@ -3,9 +3,7 @@ import 'package:flutter_formulario/src/bloc/provider.dart';
 import 'package:flutter_formulario/src/providers/usuarios_provider.dart';
 import 'package:flutter_formulario/src/utils/utils.dart';
 
-/**
- * no aplica para la primera iteracción
- */
+/// no aplica para la primera iteracción
 class RegistroPage extends StatelessWidget {
   final usuarioProvider = new UsuarioProvider();
 
@@ -105,12 +103,12 @@ class RegistroPage extends StatelessWidget {
                 icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
                 labelText: 'Contraseña',
                 counterText: snapshot.data,
-                errorText: snapshot.error), //inputDecoration
+                errorText: snapshot.error),
             onChanged: bloc.changePassword,
-          ), //TextField
-        ); //container
+          ),
+        );
       },
-    ); //StreamBuilder
+    );
   }
 
   Widget _crearBoton(LoginBloc bloc) {
@@ -121,14 +119,14 @@ class RegistroPage extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             child: Text('ingresar'),
-          ), //container
+          ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           elevation: 0.0,
           color: Colors.deepPurple,
           textColor: Colors.white,
           onPressed: snapshot.hasData ? () => _register(bloc, context) : null,
-        ); //RaisedButton
+        );
       },
     );
   }

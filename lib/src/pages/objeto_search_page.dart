@@ -1,20 +1,20 @@
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_formulario/src/pages/objeto_encontrado_page.dart';
 import 'package:flutter_formulario/src/utils/bottomNavigationBar.dart';
-import 'package:flutter_formulario/src/utils/campos.dart';
 import 'package:flutter_formulario/src/utils/fondo.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 
 import 'package:flutter_formulario/src/models/objeto_model.dart';
 import 'package:flutter_formulario/src/providers/objetos_provider.dart';
+import 'package:flutter_formulario/src/utils/utils.dart';
 
-class ObjetoPage extends StatefulWidget {
+class ObjetoSearchPage extends StatefulWidget {
   @override
-  _ObjetoPageState createState() => _ObjetoPageState();
+  _ObjetoSearchPageState createState() => _ObjetoSearchPageState();
 }
 
-class _ObjetoPageState extends State<ObjetoPage> {
+class _ObjetoSearchPageState extends State<ObjetoSearchPage> {
   String dropdownvalue = 'Categoría';
   var items = [
     'Categoría',
@@ -40,7 +40,7 @@ class _ObjetoPageState extends State<ObjetoPage> {
   final objetoProvider = new ObjetosProvider();
 
   ObjetoModel objeto = new ObjetoModel();
-  bool _guardando = false;
+  bool _buscar = false;
   File foto;
 
   static const Color guidePrimary = Color(0xFF6200EE);
@@ -101,12 +101,9 @@ class _ObjetoPageState extends State<ObjetoPage> {
                   key: formKey,
                   child: Column(
                     children: <Widget>[
-                      _mostrarFoto(),
                       _crearColorUno(),
                       _crearColorDos(),
-                      _crearPatron(),
-                      _crearUso(),
-                      _crearDisponible(),
+                      _crearCategoria(),
                       _crearBoton(),
                     ],
                   ),
@@ -117,16 +114,6 @@ class _ObjetoPageState extends State<ObjetoPage> {
         ]),
         appBar: AppBar(
           title: Text('objeto'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.photo_size_select_actual),
-              onPressed: _seleccionarFoto,
-            ),
-            IconButton(
-              icon: Icon(Icons.camera_alt),
-              onPressed: _tomarFoto,
-            )
-          ],
         ),
         bottomNavigationBar: bottomNavigationBar(context));
   }
@@ -209,7 +196,7 @@ class _ObjetoPageState extends State<ObjetoPage> {
     );
   }
 
-  Widget _crearPatron() {
+  Widget _crearCategoria() {
     return DropdownButton(
       value: dropdownvalue,
       icon: Icon(Icons.keyboard_arrow_down),
@@ -225,41 +212,6 @@ class _ObjetoPageState extends State<ObjetoPage> {
     );
   }
 
-  Widget _crearUso() {
-    return TextFormField(
-      initialValue: objeto.descripcion,
-      textCapitalization: TextCapitalization.sentences,
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        prefixIcon: Icon(Icons.text_fields_outlined),
-        border: myinputborder(),
-        enabledBorder: myinputborder(),
-        focusedBorder: myfocusborder(),
-        labelText: 'Descripción',
-      ),
-      onSaved: (value) => objeto.descripcion = value,
-      validator: (value) {
-        if (value.length < 3) {
-          return 'Ingrese la descripción del objeto';
-        } else {
-          return null;
-        }
-      },
-    );
-  }
-
-  Widget _crearDisponible() {
-    return SwitchListTile(
-      value: objeto.disponible,
-      title: Text('Disponible'),
-      activeColor: Colors.deepPurple,
-      onChanged: (value) => setState(() {
-        objeto.disponible = value;
-      }),
-    );
-  }
-
   Widget _crearBoton() {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -267,8 +219,19 @@ class _ObjetoPageState extends State<ObjetoPage> {
       textColor: Colors.white,
       label: Text('Registrar'),
       icon: Icon(Icons.save),
-      onPressed: (_guardando) ? null : _submit,
+      onPressed: (_buscar) ? null : _submit,
     );
+  }
+
+  Future<Map<String, dynamic>> existe(
+      String categoria, String colorUno, String colorDos) async {
+    List<ObjetoModel> info =
+        await objetoProvider.buscarObjeto(categoria, colorUno, colorDos);
+
+    if (info.isNotEmpty) {
+      return {'ok': true};
+    }
+    return {'ok': false};
   }
 
   void _submit() async {
@@ -276,25 +239,30 @@ class _ObjetoPageState extends State<ObjetoPage> {
     formKey.currentState.save();
 
     setState(() {
-      _guardando = true;
+      _buscar = true;
     });
 
-    if (foto != null) {
-      objeto.fotoUrl = await objetoProvider.subirImagen(foto);
+    if (objeto.colorUno != '' && objeto.categoria != '') {
+      setState(() {
+        _buscar = false;
+      });
+
+      Map info =
+          await existe(objeto.categoria, objeto.colorUno, objeto.colorDos);
+
+      if (info['ok']) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ObjetoEncontradoPage(
+                  categoria: objeto.categoria,
+                  colorUno: objeto.colorUno,
+                  colorDos: objeto.colorDos)),
+        );
+      } else {
+        mostrarAlerta(context, 'documento no encontrado');
+      }
     }
-
-    if (objeto.id == null) {
-      objetoProvider.crearObjeto(objeto);
-    } else {
-      objetoProvider.editarObjeto(objeto);
-    }
-
-    setState(() {
-      _guardando = false;
-    });
-    mostrarSnackbar('Registro guardado');
-
-    Navigator.pop(context);
   }
 
   void mostrarSnackbar(String mensaje) {
@@ -304,52 +272,5 @@ class _ObjetoPageState extends State<ObjetoPage> {
     );
 
     scaffoldKey.currentState.showSnackBar(snackbar);
-  }
-
-  Widget _mostrarFoto() {
-    if (objeto.fotoUrl != null) {
-      return FadeInImage(
-        image: NetworkImage(objeto.fotoUrl),
-        placeholder: AssetImage('assets/jar-loading.gif'),
-        height: 300.0,
-        fit: BoxFit.contain,
-      );
-    } else {
-      if (foto == null) {
-        return Image(
-          image: AssetImage(foto?.path ?? 'assets/no-image.png'),
-          height: 300.0,
-          fit: BoxFit.cover,
-        );
-      } else {
-        return Image(
-          image: FileImage(foto),
-          height: 300.0,
-          fit: BoxFit.cover,
-        );
-      }
-    }
-  }
-
-  _seleccionarFoto() async {
-    _procesarImagen(ImageSource.gallery);
-  }
-
-  _tomarFoto() async {
-    _procesarImagen(ImageSource.camera);
-  }
-
-  _procesarImagen(ImageSource origen) async {
-    foto = await ImagePicker.pickImage(
-      source: origen,
-    );
-
-    print(foto);
-
-    if (foto != null) {
-      objeto.fotoUrl = null;
-    }
-
-    setState(() {});
   }
 }
