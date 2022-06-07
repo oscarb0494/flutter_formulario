@@ -112,6 +112,30 @@ class _LlavePageState extends State<LlavePage> {
                         _crearMarca(),
                         _crearUso(),
                         _crearDisponible(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text("¿Quién lo encontró?",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 18.0)),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _crearResponsable(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        _crearCelular(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Text("¿Dondé encuentro el documento?",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 18.0)),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        _crearDireccion(),
                         _crearBoton(),
                       ],
                     ),
@@ -322,6 +346,78 @@ class _LlavePageState extends State<LlavePage> {
       onChanged: (value) => setState(() {
         llave.disponible = value;
       }),
+    );
+  }
+
+  Widget _crearResponsable() {
+    return TextFormField(
+      initialValue: llave.responsable,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.people),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
+        labelText: 'Responsable',
+      ),
+      onSaved: (value) => llave.responsable = value,
+      validator: (value) {
+        if (value.length < 1) {
+          return 'ingrese el nombre del responsable';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearCelular() {
+    return TextFormField(
+      initialValue: llave.celular,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.phone),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
+        labelText: 'Celular',
+      ),
+      onSaved: (value) => llave.celular = value,
+      validator: (value) {
+        if (value.length < 5) {
+          return 'ingrese un número correcto de celular';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearDireccion() {
+    return TextFormField(
+      initialValue: llave.direccion,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.location_on),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
+        labelText: 'Dirección',
+      ),
+      onSaved: (value) => llave.direccion = value,
+      validator: (value) {
+        if (value.length < 5) {
+          return 'ingrese una dirección';
+        } else {
+          return null;
+        }
+      },
     );
   }
 

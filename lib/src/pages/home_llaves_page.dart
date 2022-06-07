@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formulario/src/bloc/provider.dart';
-import 'package:flutter_formulario/src/providers/productos_provider.dart';
 import 'package:flutter_formulario/src/providers/llaves_provider.dart';
 import 'package:flutter_formulario/src/providers/objetos_provider.dart';
 import 'package:flutter_formulario/src/models/llave_model.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
 /// no aplica para la primera iteracción
 class HomePageLlaves extends StatelessWidget {
-  final productosProvider = new ProductosProvider();
   final llavesProvider = new LlavesProvider();
   final objetosProvider = new ObjetosProvider();
 

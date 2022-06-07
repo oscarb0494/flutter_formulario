@@ -14,9 +14,8 @@ class LoginPage extends StatelessWidget {
       children: <Widget>[
         _crearFondo(context),
         _loginForm(context),
-      ], //<Widget>[]
-    ) //Stack
-        ); //Scaffold
+      ],
+    ));
   }
 
   Widget _loginForm(BuildContext context) {
@@ -29,9 +28,8 @@ class LoginPage extends StatelessWidget {
           SafeArea(
             child: Container(
               height: 180.0,
-            ), //container
-          ), //safeArea
-
+            ),
+          ),
           Container(
             width: size.width * 0.85,
             margin: EdgeInsets.symmetric(vertical: 30.0),
@@ -45,9 +43,8 @@ class LoginPage extends StatelessWidget {
                     blurRadius: 3.0,
                     offset: Offset(0.0, 5.0),
                     spreadRadius: 3.0)
-              ], //boxShadow[]
-            ), //Boxdecoration
-
+              ],
+            ),
             child: Column(
               children: <Widget>[
                 Text('ingreso', style: TextStyle(fontSize: 20.0)),
@@ -57,19 +54,18 @@ class LoginPage extends StatelessWidget {
                 _crearPassword(bloc),
                 SizedBox(height: 30.0),
                 _crearBoton(bloc),
-              ], //<Widget>[]
-            ), //Column
-          ), //container
-
+              ],
+            ),
+          ),
           FlatButton(
             child: Text('crear una nueva cuenta'),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, 'registro'),
-          ), //FlatButton
+          ),
           SizedBox(height: 100.0)
-        ], //<Widget>[]
-      ), //Column
-    ); //SingleChildScrollView
+        ],
+      ),
+    );
   }
 
   Widget _crearEmail(LoginBloc bloc) {
@@ -85,10 +81,10 @@ class LoginPage extends StatelessWidget {
                 hintText: 'ejemplo@correo.com',
                 labelText: 'correo electronico',
                 counterText: snapshot.data,
-                errorText: snapshot.error), //inputDecoration
+                errorText: snapshot.error),
             onChanged: bloc.changeEmail,
-          ), //TextField
-        ); //container
+          ),
+        );
       },
     );
   }
@@ -105,10 +101,10 @@ class LoginPage extends StatelessWidget {
                 icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
                 labelText: 'Contraseña',
                 counterText: snapshot.data,
-                errorText: snapshot.error), //inputDecoration
+                errorText: snapshot.error),
             onChanged: bloc.changePassword,
-          ), //TextField
-        ); //container
+          ),
+        );
       },
     ); //StreamBuilder
   }
@@ -121,14 +117,14 @@ class LoginPage extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
             child: Text('ingresar'),
-          ), //container
+          ),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
           elevation: 0.0,
           color: Colors.deepPurple,
           textColor: Colors.white,
           onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
-        ); //RaisedButton
+        );
       },
     );
   }
@@ -137,7 +133,7 @@ class LoginPage extends StatelessWidget {
     Map info = await usuarioProvider.login(bloc.email, bloc.password);
 
     if (info['ok']) {
-      Navigator.pushNamed(context, 'home');
+      Navigator.pushNamed(context, 'scroll');
     } else {
       mostrarAlerta(context, info['mensaje']);
     }
@@ -153,29 +149,25 @@ class LoginPage extends StatelessWidget {
           gradient: LinearGradient(colors: <Color>[
         Color.fromRGBO(63, 63, 156, 1.0),
         Color.fromRGBO(90, 70, 178, 1.0)
-      ] //<Color>[]
-              ) //LinearGrafient
-          ), //BoxDecoration
-    ); //Container
+      ])),
+    );
 
     final circulo = Container(
       width: 100.0,
       height: 100.0,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.0),
-          color: Color.fromRGBO(255, 255, 255, 0.05)), //BoxDecoration
-    ); //Container
+          color: Color.fromRGBO(255, 255, 255, 0.05)),
+    );
 
     return Stack(
       children: <Widget>[
         fondoMorado,
-
-        Positioned(top: 90.0, left: 30.0, child: circulo), //Positioned
-        Positioned(top: -40.0, right: -30.0, child: circulo), //Positioned
-        Positioned(bottom: -50.0, right: -10.0, child: circulo), //Positioned
-        Positioned(bottom: 120.0, right: 20.0, child: circulo), //Positioned
-        Positioned(bottom: -50.0, left: -20.0, child: circulo), //Positioned
-
+        Positioned(top: 90.0, left: 30.0, child: circulo),
+        Positioned(top: -40.0, right: -30.0, child: circulo),
+        Positioned(bottom: -50.0, right: -10.0, child: circulo),
+        Positioned(bottom: 120.0, right: 20.0, child: circulo),
+        Positioned(bottom: -50.0, left: -20.0, child: circulo),
         Container(
           padding: EdgeInsets.only(top: 80.0),
           child: Column(
@@ -184,10 +176,10 @@ class LoginPage extends StatelessWidget {
               SizedBox(height: 10.0, width: double.infinity),
               Text('social network',
                   style: TextStyle(color: Colors.white, fontSize: 25.0))
-            ], //<Widget>[]
-          ), //Column
-        ), //Container
-      ], // <Widget>[]
-    ); //Stack
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

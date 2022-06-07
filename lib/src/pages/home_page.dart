@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formulario/src/bloc/provider.dart';
-import 'package:flutter_formulario/src/providers/productos_provider.dart';
 import 'package:flutter_formulario/src/providers/llaves_provider.dart';
 import 'package:flutter_formulario/src/providers/objetos_provider.dart';
-import 'package:flutter_formulario/src/models/producto_model.dart';
 import 'package:flutter_formulario/src/models/llave_model.dart';
 import 'package:flutter_formulario/src/models/objeto_model.dart';
 import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
 /// no aplica para la primera iteracción
 class HomePage extends StatelessWidget {
-  final productosProvider = new ProductosProvider();
   final llavesProvider = new LlavesProvider();
   final objetosProvider = new ObjetosProvider();
 
@@ -67,59 +64,8 @@ class HomePage extends StatelessWidget {
         });
   }
 
-  Widget _crearListado() {
-    return FutureBuilder(
-        future: productosProvider.cargarProductos(),
-        builder: (BuildContext context,
-            AsyncSnapshot<List<ProductoModel>> snapshot) {
-          if (snapshot.hasData) {
-            final productos = snapshot.data;
-
-            return ListView.builder(
-              itemCount: productos.length,
-              itemBuilder: (context, i) => _crearItem(context, productos[i]),
-            ); //ListView
-
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
-  }
-
-  Widget _crearItem(BuildContext context, ProductoModel producto) {
-    return Dismissible(
-        key: UniqueKey(),
-        background: Container(
-          color: Colors.red,
-        ),
-        onDismissed: (direccion) {
-          productosProvider.borrarProducto(producto.id);
-        },
-        child: Card(
-          child: Column(
-            children: <Widget>[
-              (producto.fotoUrl == null)
-                  ? Image(image: AssetImage('assets/no-image.png'))
-                  : FadeInImage(
-                      image: NetworkImage(producto.fotoUrl),
-                      placeholder: AssetImage('assets/jar-loading.gif'),
-                      height: 300.0,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ), //FadeInImage
-              ListTile(
-                title: Text('${producto.titulo} - ${producto.valor}'),
-                subtitle: Text(producto.id),
-                onTap: () => Navigator.pushNamed(context, 'producto',
-                    arguments: producto),
-              ),
-            ], //<Widget>[]
-          ), //Column
-        ) //Card
-        ); //Dismissible
-  }
+ 
+  
 
   Widget _crearItemLlave(BuildContext context, LlaveModel llave) {
     return Dismissible(

@@ -18,6 +18,9 @@ class LlaveModel {
   String uso;
   bool disponible;
   String fotoUrl;
+  String responsable;
+  String celular;
+  String direccion;
 
   /// @id codigo generado automaticamente por firebase
   /// @colorUno color de la base de la llave, no aplica para todas las llaves.
@@ -34,6 +37,9 @@ class LlaveModel {
     this.uso = '',
     this.disponible = true,
     this.fotoUrl,
+    this.responsable = '',
+    this.celular = '',
+    this.direccion = '',
   });
 
   ///convierte archivo json a modelo LlaveModel
@@ -45,6 +51,9 @@ class LlaveModel {
         uso: json["uso"],
         disponible: json["disponible"],
         fotoUrl: json["fotoUrl"],
+        responsable: json["responsable"],
+        celular: json["celular"],
+        direccion: json["direccion"],
       );
 
   /// convierte a json cualquier objeto de la clase llaveModel
@@ -55,5 +64,8 @@ class LlaveModel {
         "uso": uso,
         "disponible": disponible,
         "fotoUrl": fotoUrl,
+        "responsable": responsable,
+        "celular": celular,
+        "direccion": direccion,
       };
 }

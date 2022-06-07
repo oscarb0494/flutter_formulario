@@ -17,6 +17,9 @@ class ObjetoModel {
   String descripcion;
   bool disponible;
   String fotoUrl;
+  String responsable;
+  String celular;
+  String direccion;
 
   ///
   /// @id codigo generado automaticamente por firebase
@@ -33,6 +36,9 @@ class ObjetoModel {
     this.descripcion = '',
     this.disponible = true,
     this.fotoUrl,
+    this.responsable = '',
+    this.celular = '',
+    this.direccion = '',
   });
 
   ///convierte archivo json a modelo objetoModel
@@ -44,6 +50,9 @@ class ObjetoModel {
         descripcion: json["descripcion"],
         disponible: json["disponible"],
         fotoUrl: json["fotoUrl"],
+        responsable: json["responsable"],
+        celular: json["celular"],
+        direccion: json["direccion"],
       );
 
   /// convierte a json cualquier objeto de la clase objetoModel
@@ -54,5 +63,8 @@ class ObjetoModel {
         "descripcion": descripcion,
         "disponible": disponible,
         "fotoUrl": fotoUrl,
+        "responsable": responsable,
+        "celular": celular,
+        "direccion": direccion,
       };
 }

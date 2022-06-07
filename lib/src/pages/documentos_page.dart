@@ -59,6 +59,38 @@ class _DocumentoPageState extends State<DocumentosPage> {
       documento = documentoData;
     }
 
+    if (this.estado == true) {
+      return Scaffold(
+          body: Stack(
+            children: <Widget>[
+              fondoApp(),
+              Center(
+                child: SingleChildScrollView(
+                    child: Container(
+                        padding: EdgeInsets.all(15.0),
+                        child: Form(
+                          key: formKey,
+                          child: Column(
+                            children: <Widget>[
+                              _titulos(),
+                              _crearTipo(),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              _digitarCedula(),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              _crearBoton()
+                            ],
+                          ),
+                        ))),
+              )
+            ],
+          ),
+          bottomNavigationBar: bottomNavigationBar(context));
+    }
+
     return Scaffold(
         body: Stack(
           children: <Widget>[
@@ -80,6 +112,27 @@ class _DocumentoPageState extends State<DocumentosPage> {
                             SizedBox(
                               height: 30,
                             ),
+                            Text("¿Quién lo encontró?",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18.0)),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _crearResponsable(),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            _crearCelular(),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Text("¿Dondé encuentro el documento?",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 18.0)),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            _crearDireccion(),
                             _crearBoton()
                           ],
                         ),
@@ -148,7 +201,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        prefixIcon: Icon(Icons.people),
+        prefixIcon: Icon(Icons.person),
         border: myinputborder(), //normal border
         enabledBorder: myinputborder(), //enabled border
         focusedBorder: myfocusborder(), //focused border
@@ -158,6 +211,78 @@ class _DocumentoPageState extends State<DocumentosPage> {
       validator: (value) {
         if (value.length < 3) {
           return 'Digite el numero';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearResponsable() {
+    return TextFormField(
+      initialValue: documento.responsable,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.people),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
+        labelText: 'Responsable',
+      ),
+      onSaved: (value) => documento.responsable = value,
+      validator: (value) {
+        if (value.length < 1) {
+          return 'ingrese el nombre del responsable';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearCelular() {
+    return TextFormField(
+      initialValue: documento.celular,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.phone),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
+        labelText: 'Celular',
+      ),
+      onSaved: (value) => documento.celular = value,
+      validator: (value) {
+        if (value.length < 5) {
+          return 'ingrese un número correcto de celular';
+        } else {
+          return null;
+        }
+      },
+    );
+  }
+
+  Widget _crearDireccion() {
+    return TextFormField(
+      initialValue: documento.direccion,
+      textCapitalization: TextCapitalization.sentences,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: Icon(Icons.location_on),
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
+        labelText: 'Dirección',
+      ),
+      onSaved: (value) => documento.direccion = value,
+      validator: (value) {
+        if (value.length < 5) {
+          return 'ingrese una dirección';
         } else {
           return null;
         }

@@ -17,6 +17,7 @@ class DocumentosModel {
   String numero;
   String responsable;
   String celular;
+  String direccion;
   double latitud;
   double longitud;
   String fotoUrl;
@@ -35,6 +36,7 @@ class DocumentosModel {
     this.numero = '',
     this.responsable = '',
     this.celular = '',
+    this.direccion = '',
     this.latitud = 0.0,
     this.longitud = 0.0,
     this.fotoUrl,
@@ -48,6 +50,7 @@ class DocumentosModel {
         numero: json["numero"],
         responsable: json["responsable"],
         celular: json["celular"],
+        direccion: json["direccion"],
         latitud: json['latitud'],
         longitud: json['longitud'],
         fotoUrl: json["fotoUrl"],
@@ -59,6 +62,7 @@ class DocumentosModel {
         "numero": numero,
         "responsable": responsable,
         "celular": celular,
+        "direccion": direccion,
         "latitud": latitud,
         "longitud": longitud,
         "fotoUrl": fotoUrl,
