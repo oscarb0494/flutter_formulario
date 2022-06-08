@@ -22,12 +22,12 @@ class LlaveModel {
   String celular;
   String direccion;
 
-  /// @id codigo generado automaticamente por firebase
+  /// @id código generado automaticamente por firebase
   /// @colorUno color de la base de la llave, no aplica para todas las llaves.
   /// @colorDos color de la llave (dorada,plateada,cobre)
-  /// @patron patron de la llave(cerrucho, inglesa, etc)
+  /// @patrpn patrón de la llave(cerrucho, inglesa, etc)
   /// @uso utilidad de la llave
-  /// @disponible estado de busquedad de la llave, true corresponde a llave encontrada.
+  /// @disponible estado de búsquedad de la llave, true corresponde a llave encontrada.
   /// @fotoUrl imagen del objeto encontrado.
   LlaveModel({
     this.id,

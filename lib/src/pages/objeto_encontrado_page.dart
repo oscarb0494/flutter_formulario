@@ -3,7 +3,7 @@ import 'package:flutter_formulario/src/models/objeto_model.dart';
 import 'package:flutter_formulario/src/providers/objetos_provider.dart';
 import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
-/// pagina para la visualización de los objetos encontrados (aplicaria para documentos)
+/// página para la visualización de los objetos encontrados (aplicaria para documentos)
 class ObjetoEncontradoPage extends StatelessWidget {
   final estiloTitulo = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
   final estiloSubTitulo = TextStyle(fontSize: 18.0, color: Colors.grey);
@@ -25,7 +25,7 @@ class ObjetoEncontradoPage extends StatelessWidget {
     );
   }
 
-  /// crea el listado de objetos encontrados con caracteristicas similares a las diligenciadas en el formulario
+  /// crea el listado de objetos encontrados con características similares a las diligenciadas en el formulario
   Widget _crearListadoDocumentos() {
     return FutureBuilder(
         future: objetosProvider.buscarObjeto(categoria, colorUno, colorDos),
@@ -42,13 +42,13 @@ class ObjetoEncontradoPage extends StatelessWidget {
           } else {
             return Center(
                 child: Text(
-                    "no fue encontrado ningun elemento en esta " + categoria));
+                    "No fue encontrado ningún elemento en esta " + categoria));
           }
         });
   }
 
   ///
-  /// crea el item por objeto encontrado.
+  /// crea el ítem por objeto encontrado.
   /// @context contexto de uso de la aplicación.
   /// @documento corresponde la información del documento encontrado.
   ///
@@ -70,7 +70,7 @@ class ObjetoEncontradoPage extends StatelessWidget {
               ListTile(
                 subtitle: Text('disponible'),
                 title: Text(
-                    '\n Puedes contactarte a este numero, una persona lo ha encontrado \n Contacto: ${objeto.id}'),
+                    '\n Puedes contactarte a este número, una persona lo ha encontrado \n Contacto: ${objeto.id}'),
               ),
             ],
           ),

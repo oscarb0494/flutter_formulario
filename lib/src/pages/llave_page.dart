@@ -13,7 +13,7 @@ import 'package:flutter_formulario/src/utils/fondo.dart';
 
 import 'llave_encontrada_page.dart';
 
-/// pagina para el ingreso de la información que desemos buscar o registrar.
+/// página para el ingreso de la información que desemos buscar o registrar.
 /// si el documento es encontrado dirige a la pagina LlaveEncontradaPage.
 /// si la llave no se encuentra en la base de datos despliega un aviso indicando la situación.
 /// el formulario que se despliega puede ser de registro y consulta, dependiendo del valor booleano de la variable estado
@@ -109,11 +109,10 @@ class _LlavePageState extends State<LlavePage> {
                         _crearColorDos(),
                         _crearPatron(),
                         _crearMarca(),
+                        SizedBox(height: 30),
                         _crearUso(),
                         _crearDisponible(),
-                        SizedBox(
-                          height: 30,
-                        ),
+                        SizedBox(height: 30),
                         Text("¿Quién lo encontró?",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 18.0)),
@@ -145,6 +144,8 @@ class _LlavePageState extends State<LlavePage> {
           ]),
           appBar: AppBar(
             title: Text('llave'),
+            backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+            elevation: 0,
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.photo_size_select_actual),
@@ -191,6 +192,8 @@ class _LlavePageState extends State<LlavePage> {
         ]),
         appBar: AppBar(
           title: Text('llave'),
+          backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+          elevation: 0,
         ),
         bottomNavigationBar: bottomNavigationBar(context));
   }
@@ -300,11 +303,11 @@ class _LlavePageState extends State<LlavePage> {
       decoration: InputDecoration(
         filled: true,
         fillColor: Colors.white,
-        prefixIcon: Icon(Icons.people),
+        prefixIcon: Icon(Icons.emoji_objects_outlined),
         border: myinputborder(),
         enabledBorder: myinputborder(),
         focusedBorder: myfocusborder(),
-        labelText: 'uso',
+        labelText: 'Marca',
       ),
       onSaved: (value) => llave.uso = value,
     );
@@ -333,7 +336,7 @@ class _LlavePageState extends State<LlavePage> {
   Widget _crearDisponible() {
     return SwitchListTile(
       value: llave.disponible,
-      title: Text('disponible'),
+      title: Text('Disponible'),
       activeColor: Colors.deepPurple,
       onChanged: (value) => setState(() {
         llave.disponible = value;
@@ -358,7 +361,7 @@ class _LlavePageState extends State<LlavePage> {
       onSaved: (value) => llave.responsable = value,
       validator: (value) {
         if (value.length < 1) {
-          return 'ingrese el nombre del responsable';
+          return 'Ingrese el nombre del responsable';
         } else {
           return null;
         }
@@ -383,7 +386,7 @@ class _LlavePageState extends State<LlavePage> {
       onSaved: (value) => llave.celular = value,
       validator: (value) {
         if (value.length < 5) {
-          return 'ingrese un número correcto de celular';
+          return 'Ingrese un número correcto de celular';
         } else {
           return null;
         }
@@ -403,12 +406,12 @@ class _LlavePageState extends State<LlavePage> {
         border: myinputborder(),
         enabledBorder: myinputborder(),
         focusedBorder: myfocusborder(),
-        labelText: 'Dirección',
+        labelText: 'Dirección / Ubicación',
       ),
       onSaved: (value) => llave.direccion = value,
       validator: (value) {
         if (value.length < 5) {
-          return 'ingrese una dirección';
+          return 'Ingrese una dirección';
         } else {
           return null;
         }
@@ -422,7 +425,7 @@ class _LlavePageState extends State<LlavePage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       color: Colors.deepPurple,
       textColor: Colors.white,
-      label: Text('guardar'),
+      label: Text('Guardar'),
       icon: Icon(Icons.save),
       onPressed: (_guardando) ? null : _submit,
     );
@@ -441,8 +444,8 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
-  /// verifica que el formulario se halla llenado correctamente
-  /// si la llave existe en la base de datos, dirige a la pagina LlaveEncontradaPage, si es el caso de que se esté buscando.
+  /// verifica que el formulario se hubiese diligenciado correctamente
+  /// si la llave existe en la base de datos, dirige a la página LlaveEncontradaPage, si es el caso de que se esté buscando.
   /// si el documento no se ha encontrado se muestra una alerta.
   void _submit() async {
     if (!formKey.currentState.validate()) return;
@@ -465,7 +468,7 @@ class _LlavePageState extends State<LlavePage> {
     setState(() {
       _guardando = false;
     });
-    mostrarSnackbar('registro guardado');
+    mostrarSnackbar('Registro guardado');
 
     Navigator.pop(context);
   }
@@ -504,7 +507,7 @@ class _LlavePageState extends State<LlavePage> {
                   )),
         );
       } else {
-        mostrarAlerta(context, 'documento no encontrado');
+        mostrarAlerta(context, 'Documento no encontrado');
       }
     }
   }

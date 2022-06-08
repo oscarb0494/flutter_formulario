@@ -23,12 +23,12 @@ class DocumentosModel {
   String fotoUrl;
 
   ///
-  /// @id codigo generado automaticamente por firebase
-  /// @cedula codigo de identificación del documento, (aplica por el momento a documentos que no sean cedulas)
-  /// @responsable nombre de la personas que encontro el documento.
-  /// @latitud latitud del lugar de la persona que encontro el documento
-  /// @longitud longitud del lugar de la persona que encontro el documento
-  /// @fotoUrl imagen del objeto encontrado, no aplica para cedulas
+  /// @id código generado automaticamente por firebase
+  /// @cedula código de identificación del documento, (aplica por el momento a documentos que no sean cédulas)
+  /// @responsable nombre de la persona que encontró el documento.
+  /// @latitud latitud del lugar de la persona que encontró el documento
+  /// @longitud longitud del lugar de la persona que encontró el documento
+  /// @fotoUrl imagen del objeto encontrado, no aplica para cédulas
   ///
   DocumentosModel({
     this.id,

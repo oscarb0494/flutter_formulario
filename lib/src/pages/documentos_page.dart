@@ -10,9 +10,9 @@ import 'package:flutter_formulario/src/utils/campos.dart';
 import 'package:flutter_formulario/src/pages/basico_page.dart';
 
 /// pagina para el ingreso del documento que desemos buscar o registrar
-/// la pagina despliega una dropdown-menu para elegir el tipo de documento
-/// la pagina despliega un un campo para ingresar el número del documento
-/// si el documento es encontrado dirige a la pagina BasicoPage
+/// la página despliega una dropdown-menu para elegir el tipo de documento
+/// la página despliega un un campo para ingresar el número del documento
+/// si el documento es encontrado dirige a la página BasicoPage
 /// si el documento no se encuentra en la base de datos despliega un aviso indicando la situación.
 class DocumentosPage extends StatefulWidget {
   final bool estado;
@@ -146,7 +146,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
   /// grafica los titulos de la sección
   Widget _titulos() {
     if (this.estado == false) {
-      titulo = "registrando documento";
+      titulo = "Registrando documento";
     }
 
     return SafeArea(
@@ -207,12 +207,12 @@ class _DocumentoPageState extends State<DocumentosPage> {
         border: myinputborder(),
         enabledBorder: myinputborder(),
         focusedBorder: myfocusborder(),
-        labelText: 'Cedula',
+        labelText: 'Cédula',
       ),
       onSaved: (value) => documento.numero = value,
       validator: (value) {
         if (value.length < 3) {
-          return 'Digite el numero';
+          return 'Ingresé un número de documento valido.';
         } else {
           return null;
         }
@@ -237,7 +237,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
       onSaved: (value) => documento.responsable = value,
       validator: (value) {
         if (value.length < 1) {
-          return 'ingrese el nombre del responsable';
+          return 'Ingrese el nombre del responsable';
         } else {
           return null;
         }
@@ -262,7 +262,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
       onSaved: (value) => documento.celular = value,
       validator: (value) {
         if (value.length < 5) {
-          return 'ingrese un número correcto de celular';
+          return 'Ingrese un número correcto de celular';
         } else {
           return null;
         }
@@ -287,7 +287,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
       onSaved: (value) => documento.direccion = value,
       validator: (value) {
         if (value.length < 5) {
-          return 'ingrese una dirección';
+          return 'Ingrese una dirección';
         } else {
           return null;
         }
@@ -313,7 +313,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
         color: Colors.deepPurple,
         textColor: Colors.white,
-        label: Text('guardar'),
+        label: Text('Guardar'),
         icon: Icon(Icons.save),
         onPressed: (_guardando) ? null : _submitRegistrar,
       );
@@ -362,7 +362,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
                   )),
         );
       } else {
-        mostrarAlerta(context, 'documento no encontrado');
+        mostrarAlerta(context, 'Documento no encontrado');
       }
     }
   }
@@ -390,9 +390,8 @@ class _DocumentoPageState extends State<DocumentosPage> {
     setState(() {
       _guardando = false;
     });
-    mostrarSnackbar('registro guardado');
 
-    Navigator.pop(context);
+    mostrarAlerta(context, 'Registro guardado');
   }
 
   /// mensaje de alerta

@@ -22,11 +22,11 @@ class ObjetoModel {
   String direccion;
 
   ///
-  /// @id codigo generado automaticamente por firebase
+  /// @id código generado automaticamente por firebase
   /// @colorUno color principal del objeto
   /// @colorDos color secundario del objeto, no aplicable para todos los objetos.
   /// @texto posible texto de la llave
-  /// @disponible estado de busquedad del objeto, true corresponde a llave encontrada.
+  /// @disponible estado de búsquedad del objeto, true corresponde a llave encontrada.
   /// @fotoUrl imagen del objeto encontrado.
   ObjetoModel({
     this.id,

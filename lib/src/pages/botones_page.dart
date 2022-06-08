@@ -5,9 +5,9 @@ import 'package:flutter_formulario/src/utils/fondo.dart';
 
 import 'package:flutter_formulario/src/utils/titulos.dart';
 
-/// pagina para escoger entre las opciones busqueda y registro
-/// la pagina despliega una lista de opciones (documentos,llaves, objetos)
-/// dependiendo de la variable estado la pagina despliega las opciones de busqueda o registro
+/// página para escoger entre las opciones búsqueda y registro
+/// la página despliega una lista de opciones (documentos,llaves, objetos)
+/// dependiendo de la variable estado la página despliega las opciones de búsqueda o registro
 /// al presionar alguna de las opciones la app lo dirige a la opción seleccionada.
 class BotonesPage extends StatelessWidget {
   final bool estado;

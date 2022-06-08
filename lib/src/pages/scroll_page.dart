@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formulario/src/pages/botones_page.dart';
 
-/**
- * 
- * pagina inicial de la app
- * despliega una ventana inicial con la presentación de la aplicación
- */
+///
+/// pagina inicial de la app
+/// despliega una ventana inicial con la presentación de la aplicación
 class ScrollPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -16,6 +14,7 @@ class ScrollPage extends StatelessWidget {
     ));
   }
 
+  /// despliega la presentación inicial de la app
   Widget _pagina1() {
     return Stack(
       children: <Widget>[
@@ -26,6 +25,7 @@ class ScrollPage extends StatelessWidget {
     );
   }
 
+  /// retorna un container usado de fondo para la app.
   Widget _colorFondo() {
     return Container(
       width: double.infinity,
@@ -34,6 +34,7 @@ class ScrollPage extends StatelessWidget {
     );
   }
 
+  /// retorna una de fondo para la pagina inicial de la app.
   Widget _imagenFondo() {
     return Container(
       width: double.infinity,
@@ -45,6 +46,7 @@ class ScrollPage extends StatelessWidget {
     );
   }
 
+  /// retorna el nombre de la app en la pagina inicial de la app.
   Widget _textos() {
     final estiloTexto = TextStyle(color: Colors.white, fontSize: 50.0);
 
@@ -61,6 +63,7 @@ class ScrollPage extends StatelessWidget {
     );
   }
 
+  /// retorna una pagína con las opciones de uso de la app.
   Widget _pagina2(BuildContext context) {
     return Container(
       width: double.infinity,

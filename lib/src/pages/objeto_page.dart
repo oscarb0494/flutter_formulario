@@ -300,7 +300,7 @@ class _ObjetoPageState extends State<ObjetoPage> {
       onSaved: (value) => objeto.responsable = value,
       validator: (value) {
         if (value.length < 1) {
-          return 'ingrese el nombre del responsable';
+          return 'Ingrese el nombre del responsable';
         } else {
           return null;
         }

@@ -3,7 +3,7 @@ import 'package:flutter_formulario/src/bloc/provider.dart';
 import 'package:flutter_formulario/src/providers/usuarios_provider.dart';
 import 'package:flutter_formulario/src/utils/utils.dart';
 
-/// no aplica para la primera iteracción
+/// no aplica para la primera iteración
 class LoginPage extends StatelessWidget {
   final usuarioProvider = new UsuarioProvider();
 
@@ -58,7 +58,7 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           FlatButton(
-            child: Text('crear una nueva cuenta'),
+            child: Text('Crear una nueva cuenta'),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, 'registro'),
           ),
@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
             decoration: InputDecoration(
                 icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
                 hintText: 'ejemplo@correo.com',
-                labelText: 'correo electronico',
+                labelText: 'Correo electrónico',
                 counterText: snapshot.data,
                 errorText: snapshot.error),
             onChanged: bloc.changeEmail,

@@ -5,15 +5,16 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_formulario/src/pages/basico_page.dart';
 import 'package:flutter_formulario/src/pages/botones_page.dart';
 import 'package:flutter_formulario/src/pages/documentos_page.dart';
 import 'package:flutter_formulario/src/pages/scroll_page.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_formulario/main.dart';
 
 void main() {
+
+
+  
 /**
  * prueba general de sistema
  * prueba para verificar que la vista resultado de consulta sea generada correctamente

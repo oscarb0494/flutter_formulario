@@ -3,7 +3,7 @@ import 'package:flutter_formulario/src/models/documentos_model.dart';
 import 'package:flutter_formulario/src/providers/documentos_provider.dart';
 import 'package:flutter_formulario/src/widgets/menu_widget.dart';
 
-/// pagina para la visualización de los objetos encontrados (aplicaria para documentos)
+/// página para la visualización de los objetos encontrados (aplicaria para documentos)
 class BasicoPage extends StatelessWidget {
   final estiloTitulo = TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold);
   final estiloSubTitulo = TextStyle(fontSize: 18.0, color: Colors.grey);
@@ -24,7 +24,7 @@ class BasicoPage extends StatelessWidget {
     );
   }
 
-  /// crea el listado de objetos encontrados con caracteristicas similares a las diligenciadas en el formulario
+  /// crea el listado de objetos encontrados con características similares a las diligenciadas en el formulario
   Widget _crearListadoDocumentos() {
     return FutureBuilder(
         future: documentosProvider.cargarDocumento(tipo,data),
@@ -41,7 +41,7 @@ class BasicoPage extends StatelessWidget {
           } else {
             return Center(
                 child: Text(
-                    "la cedula con numero: " + data + " no fue encontrada"));
+                    "la cédula con número: " + data + " no fue encontrada"));
           }
         });
   }
@@ -69,7 +69,7 @@ class BasicoPage extends StatelessWidget {
               ListTile(
                 subtitle: Text('disponible'),
                 title: Text(
-                    '\n Puedes contactarte a este numero, una persona lo ha encontrado \n Contacto: ${documento.celular}'),
+                    '\n Puedes contactarte a este número, una persona lo ha encontrado \n Contacto: ${documento.celular}'),
               ),
             ],
           ),

@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 
-bool isNumeric(String s){
-	if(s.isEmpty) return false;
+bool isNumeric(String s) {
+  if (s.isEmpty) return false;
 
-	final n = num.tryParse(s);
+  final n = num.tryParse(s);
 
-	return (n==null) ? false :true;
+  return (n == null) ? false : true;
 }
 
 mostrarAlerta(BuildContext context, String mensaje) {
-	showDialog(
-		context: context,
-		builder: (context){
-			return AlertDialog(
-				title: Text('informacion incorrecta'),
-				content: Text(mensaje),
-				actions: <Widget>[
-					FlatButton(
-						child: Text('Ok'),
-						onPressed: ()=> Navigator.of(context).pop(),
-					)
-				], //<Widget>[]
-			); //AlertDialog
-		}
-	);
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Aviso'),
+          content: Text(mensaje),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () => Navigator.pushNamed(
+                context,
+                'scroll',
+              ),
+            )
+          ], //<Widget>[]
+        ); //AlertDialog
+      });
 }
