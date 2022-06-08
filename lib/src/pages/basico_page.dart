@@ -108,26 +108,6 @@ class BasicoPage extends StatelessWidget {
     );
   }
 
-  /// crea el icono de items ejecutables si el documento es encontrado.
-  Widget _accion(
-      IconData icon, String texto, BuildContext context, String ruta) {
-    return Column(
-      children: <Widget>[
-        FlatButton(
-            onPressed: () {
-              Navigator.pushNamed(context, ruta);
-            },
-            child: Icon(icon, color: Colors.white, size: 30.0)),
-        Icon(icon, color: Colors.blue, size: 40.0),
-        SizedBox(height: 5.0),
-        Text(
-          texto,
-          style: TextStyle(fontSize: 15.0, color: Colors.blue),
-        ),
-      ],
-    );
-  }
-
   /// despliega el número del documento encontrado.
   Widget _crearTexto() {
     return SafeArea(

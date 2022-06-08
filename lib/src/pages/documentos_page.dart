@@ -168,7 +168,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
   }
 
   /// despliega la el dropdown con las opciones tipo de documento
-  /// las opciones incluyen
+  /// las opciones incluidas estan almacenadas en la variable item
   Widget _crearTipo() {
     return DropdownButtonFormField(
       value: dropdownvalue,
@@ -193,6 +193,8 @@ class _DocumentoPageState extends State<DocumentosPage> {
     );
   }
 
+  /// retorna el campo para digitar la cedula que deseamos buscar o registrar.
+  /// la longitud del tamaño de la cedula o documento debe ser mayor a 3
   Widget _digitarCedula() {
     return TextFormField(
       initialValue: documento.numero,
@@ -202,9 +204,9 @@ class _DocumentoPageState extends State<DocumentosPage> {
         filled: true,
         fillColor: Colors.white,
         prefixIcon: Icon(Icons.person),
-        border: myinputborder(), //normal border
-        enabledBorder: myinputborder(), //enabled border
-        focusedBorder: myfocusborder(), //focused border
+        border: myinputborder(),
+        enabledBorder: myinputborder(),
+        focusedBorder: myfocusborder(),
         labelText: 'Cedula',
       ),
       onSaved: (value) => documento.numero = value,
@@ -218,6 +220,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
     );
   }
 
+  ///despliega el formulario para digitar el nombre de la persona que encontró la cedula
   Widget _crearResponsable() {
     return TextFormField(
       initialValue: documento.responsable,
@@ -242,6 +245,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
     );
   }
 
+  /// retorna el campo para digitar el número del celular de la persona que encontró el documento
   Widget _crearCelular() {
     return TextFormField(
       initialValue: documento.celular,
@@ -266,6 +270,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
     );
   }
 
+  /// retorna el campo para digitar la dirección donde podemos reclamar el documento perdido.
   Widget _crearDireccion() {
     return TextFormField(
       initialValue: documento.direccion,
@@ -315,6 +320,9 @@ class _DocumentoPageState extends State<DocumentosPage> {
     }
   }
 
+  /// verifica que exista un documento en base a los variables ingresadas
+  /// @tipo corrresponde al tipo de documento que estamos buscando
+  /// @numero corresponde al número de identificación del documento que estamos buscando
   Future<Map<String, dynamic>> existe(String tipo, String numero) async {
     List<DocumentosModel> info =
         await documentoProvider.cargarDocumento(tipo, numero);
@@ -326,7 +334,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
   }
 
   /// verifica que el formulario se halla llenado correctamente
-  /// si el documento existe en la base de datos, dirige a la pagina BasicoPage
+  /// si el documento existe en la base de datos, dirige a la pagina BasicoPage si es el caso de que se esté buscando
   /// si el documento no se ha encontrado se muestra una alerta
   void _submitBuscar() async {
     if (!formKey.currentState.validate()) return;

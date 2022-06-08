@@ -5,9 +5,10 @@ import 'package:flutter_formulario/src/utils/fondo.dart';
 
 import 'package:flutter_formulario/src/utils/titulos.dart';
 
-/// pagina para escoger entre las opciones busquedad
+/// pagina para escoger entre las opciones busqueda y registro
 /// la pagina despliega una lista de opciones (documentos,llaves, objetos)
-/// al presionar alguna de las opciones lo debe llevar al formulario para encontrar objetos referentes a la opción elegida.
+/// dependiendo de la variable estado la pagina despliega las opciones de busqueda o registro
+/// al presionar alguna de las opciones la app lo dirige a la opción seleccionada.
 class BotonesPage extends StatelessWidget {
   final bool estado;
 
@@ -49,6 +50,10 @@ class BotonesPage extends StatelessWidget {
   }
 
   /// asignar estilo a los botones
+  /// @context corresponde al contexto de la app
+  /// @documentoDir corresponde a la dirección para el formulario de documentos
+  /// @llaveDir corresponde a la dirección para el formulario de llaves
+  /// @objetoDir corresponde a la dirección para el formulario de objetos
   Widget _botonesRedondeados(context, documentoDir, llaveDir, objetoDir) {
     return Table(
       children: [

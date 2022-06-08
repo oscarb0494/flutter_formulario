@@ -78,6 +78,7 @@ class LlaveEncontradaPage extends StatelessWidget {
   /// despliega una imagen del objeto encontrado (no aplica para documentos)
   /// en el caso de documentos despliega una imagen base
   /// @context contexto de uso de la aplicación.
+  /// @imageAddress corresponde a la dirección de la imagen que visualizaremos
   Widget _crearImagen(BuildContext context, String imageAddress) {
     return Container(
       width: double.infinity,

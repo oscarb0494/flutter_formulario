@@ -13,7 +13,10 @@ import 'package:flutter_formulario/src/utils/fondo.dart';
 
 import 'llave_encontrada_page.dart';
 
-/// no aplica para la primera iteracción
+/// pagina para el ingreso de la información que desemos buscar o registrar.
+/// si el documento es encontrado dirige a la pagina LlaveEncontradaPage.
+/// si la llave no se encuentra en la base de datos despliega un aviso indicando la situación.
+/// el formulario que se despliega puede ser de registro y consulta, dependiendo del valor booleano de la variable estado
 class LlavePage extends StatefulWidget {
   final bool estado;
 
@@ -31,13 +34,9 @@ class _LlavePageState extends State<LlavePage> {
   String dropdownvalue = 'Patrón';
   var items = ['Patrón', 'Antigua', 'Moderna', 'Lisas', 'Normal', 'Pequeña'];
 
-// Color for the picker shown in Card on the screen.
-  Color screenPickerColor;
-  // Color for the picker in a dialog using onChanged.
-  Color dialogPickerColor;
-  // Color for picker using the color select dialog.
-  Color dialogSelectColor;
-
+  Color screenPickerColor; // Color for the picker shown in Card on the screen.
+  Color dialogPickerColor; // Color for the picker in a dialog using onChanged.
+  Color dialogSelectColor; // Color for picker using the color select dialog.
   Color paletonPickerColor;
 
   final formKey = GlobalKey<FormState>();
@@ -196,6 +195,7 @@ class _LlavePageState extends State<LlavePage> {
         bottomNavigationBar: bottomNavigationBar(context));
   }
 
+  /// retorna un colorPicker para escoger el color de la cabeza de la llave
   Widget _crearColorUno() {
     return SizedBox(
       width: double.infinity,
@@ -205,7 +205,6 @@ class _LlavePageState extends State<LlavePage> {
           elevation: 2,
           child: ColorPicker(
               pickersEnabled: <ColorPickerType, bool>{
-                //ColorPickerType.accent : false
                 ColorPickerType.both: false,
                 ColorPickerType.primary: true,
                 ColorPickerType.accent: false,
@@ -234,6 +233,8 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// despliega un color picker para escoger el color del paleton de la llave
+  /// las opiones son: plata y dorado
   Widget _crearColorDos() {
     return SizedBox(
       width: double.infinity,
@@ -243,7 +244,6 @@ class _LlavePageState extends State<LlavePage> {
           elevation: 2,
           child: ColorPicker(
             pickersEnabled: <ColorPickerType, bool>{
-              //ColorPickerType.accent : false
               ColorPickerType.both: false,
               ColorPickerType.primary: false,
               ColorPickerType.accent: false,
@@ -274,6 +274,7 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// retorna una lista despeglable para escoger el patrón de la llave
   Widget _crearPatron() {
     return DropdownButton(
       value: dropdownvalue,
@@ -290,6 +291,8 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// retorna el campo para ingresar una marca de llave.
+  /// no es una campo obligatorio.
   Widget _crearMarca() {
     return TextFormField(
       initialValue: llave.uso,
@@ -304,16 +307,11 @@ class _LlavePageState extends State<LlavePage> {
         labelText: 'uso',
       ),
       onSaved: (value) => llave.uso = value,
-      validator: (value) {
-        if (value.length < 3) {
-          return 'ingrese marca de la llave';
-        } else {
-          return null;
-        }
-      },
     );
   }
 
+  /// retorna una campo para ingresar el uso de la llave
+  /// no es un campo obligatorio
   Widget _crearUso() {
     return TextFormField(
       initialValue: llave.uso,
@@ -328,16 +326,10 @@ class _LlavePageState extends State<LlavePage> {
         labelText: 'uso',
       ),
       onSaved: (value) => llave.uso = value,
-      validator: (value) {
-        if (value.length < 3) {
-          return 'ingrese uso de la llave';
-        } else {
-          return null;
-        }
-      },
     );
   }
 
+  /// retorna una campo para declarar el estado de la llave
   Widget _crearDisponible() {
     return SwitchListTile(
       value: llave.disponible,
@@ -349,6 +341,7 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  ///despliega el formulario para digitar el nombre de la persona que encontró la llave.
   Widget _crearResponsable() {
     return TextFormField(
       initialValue: llave.responsable,
@@ -373,6 +366,7 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// retorna el campo para digitar el número del celular de la persona que encontró la llave.
   Widget _crearCelular() {
     return TextFormField(
       initialValue: llave.celular,
@@ -397,6 +391,7 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// retorna el campo para digitar la dirección donde podemos reclamar el documento perdido.
   Widget _crearDireccion() {
     return TextFormField(
       initialValue: llave.direccion,
@@ -421,6 +416,7 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// retorna el botón para buscar en caso de que el formulario se despliegue como formulario de registro.
   Widget _crearBoton() {
     return RaisedButton.icon(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
@@ -432,6 +428,7 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// retorna el botón para buscar en caso de que el formulario se despliegue como formulario de busquedad.
   Widget _crearBotonBuscar() {
     return RaisedButton(
       shape: StadiumBorder(),
@@ -444,6 +441,9 @@ class _LlavePageState extends State<LlavePage> {
     );
   }
 
+  /// verifica que el formulario se halla llenado correctamente
+  /// si la llave existe en la base de datos, dirige a la pagina LlaveEncontradaPage, si es el caso de que se esté buscando.
+  /// si el documento no se ha encontrado se muestra una alerta.
   void _submit() async {
     if (!formKey.currentState.validate()) return;
     formKey.currentState.save();
