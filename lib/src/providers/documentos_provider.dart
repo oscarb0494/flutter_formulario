@@ -11,8 +11,10 @@ class DocumentosProvider {
 	final String _url = 'https://flutter-79ec6-default-rtdb.firebaseio.com';
 	final _prefs = new PreferenciasUsuario();
 
+  final String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFhZWY1NjlmNTI0MTRlOWY0YTcxMDRiNmQwNzFmMDY2ZGZlZWQ2NzciLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZmx1dHRlci03OWVjNiIsImF1ZCI6ImZsdXR0ZXItNzllYzYiLCJhdXRoX3RpbWUiOjE2NTQ3MzY4MTksInVzZXJfaWQiOiJwMm94V2pjQ1NwYmJGRDhiWHpzZHhWeU1YZU0yIiwic3ViIjoicDJveFdqY0NTcGJiRkQ4Ylh6c2R4VnlNWGVNMiIsImlhdCI6MTY1NDczNjgxOSwiZXhwIjoxNjU0NzQwNDE5LCJlbWFpbCI6ImRhbmllbDk5QGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiZmlyZWJhc2UiOnsiaWRlbnRpdGllcyI6eyJlbWFpbCI6WyJkYW5pZWw5OUBnbWFpbC5jb20iXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.KTt7Ip2s85w_x4r5tRCKH0yyh5uFE-YbTrZBj-Z0HI8mZLqT0WeIwTXiBrCoHGpWpSzKR7TjEKSbeKdXtfTWmqs2qxru7zmjmT7moa7cqtxZBwulh1KtFzd0wbaDm3ZzGoV3V3fM28SJjBw_56rARRsBGmTXtYosh9yyHjgvZ9PBZ3CrKBlFrBdecOaF_MYwL586sfNVaSWPVackePw0kcAPAmh_qNv1x2qNL99HX2rpCCbGjji5bVSy7WtR7fqcJnV__kF2aeF4sR9Jxjq6c6okYy6pdiPNaivk9ZQM0YiN7cTSnyE2I1xfNPs5FgVKX_qxK12PFKWNJxk09pQ_pQ";
+
 	Future<bool> crearDocumento( DocumentosModel documento ) async{
-		final url = '$_url/documentos.json?auth=${ _prefs.token }';
+		final url = '$_url/documentos.json?auth=${ token }';
 
 		final resp = await http.post(url, body: documentosModelToJson(documento) );
 

@@ -211,8 +211,8 @@ class _DocumentoPageState extends State<DocumentosPage> {
       ),
       onSaved: (value) => documento.numero = value,
       validator: (value) {
-        if (value.length < 3) {
-          return 'Ingresé un número de documento valido.';
+        if (value.length < 7) {
+          return 'Ingrese un número de documento válido.';
         } else {
           return null;
         }

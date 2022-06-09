@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      initialRoute: 'scroll',
+      initialRoute: 'login',
       routes: {
         'basic': (BuildContext context) => BasicoPage(),
         'basic_llave': (BuildContext context) => LlaveEncontradaPage(),
