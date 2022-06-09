@@ -114,6 +114,8 @@ class _ObjetoSearchPageState extends State<ObjetoSearchPage> {
         ]),
         appBar: AppBar(
           title: Text('objeto'),
+          backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+          elevation: 0,
         ),
         bottomNavigationBar: bottomNavigationBar(context));
   }

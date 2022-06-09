@@ -18,7 +18,7 @@ void main() {
    * prueba unitaria
    * verifica que un documento se haya creado correctamente.
    */
-  test('Registro exitoso de documento', () {
+  test('Registro exitoso de documento', () async {
     DocumentosProvider provider = new DocumentosProvider();
 
     DocumentosModel documento = new DocumentosModel(
@@ -29,9 +29,8 @@ void main() {
         direccion: "Cra. 26, 49-46, Manizales");
 
     Future<bool> resultado = provider.crearDocumento(documento);
-    resultado["param"];
 
-    Future<bool> esperado = Future<bool>.value(true).then((value) => value);
+    Future<bool> esperado = Future<bool>.value(true);
 
     expect(resultado, esperado);
   });

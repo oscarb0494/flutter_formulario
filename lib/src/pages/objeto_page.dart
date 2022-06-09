@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_formulario/src/utils/bottomNavigationBar.dart';
 import 'package:flutter_formulario/src/utils/campos.dart';
 import 'package:flutter_formulario/src/utils/fondo.dart';
+import 'package:flutter_formulario/src/utils/utils.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
@@ -108,29 +109,29 @@ class _ObjetoPageState extends State<ObjetoPage> {
                       _crearUso(),
                       _crearDisponible(),
                       SizedBox(
-                          height: 30,
-                        ),
-                        Text("¿Quién lo encontró?",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18.0)),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _crearResponsable(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        _crearCelular(),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Text("¿Dondé encuentro el documento?",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 18.0)),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        _crearDireccion(),
+                        height: 30,
+                      ),
+                      Text("¿Quién lo encontró?",
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 18.0)),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _crearResponsable(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      _crearCelular(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text("¿Donde encuentro el objeto?",
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 18.0)),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      _crearDireccion(),
                       _crearBoton(),
                     ],
                   ),
@@ -141,6 +142,8 @@ class _ObjetoPageState extends State<ObjetoPage> {
         ]),
         appBar: AppBar(
           title: Text('objeto'),
+          backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+          elevation: 0,
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.photo_size_select_actual),
@@ -388,9 +391,8 @@ class _ObjetoPageState extends State<ObjetoPage> {
     setState(() {
       _guardando = false;
     });
-    mostrarSnackbar('Registro guardado');
 
-    Navigator.pop(context);
+    mostrarAlerta(context, "registro exitoso");
   }
 
   void mostrarSnackbar(String mensaje) {

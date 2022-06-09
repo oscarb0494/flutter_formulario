@@ -127,7 +127,7 @@ class _LlavePageState extends State<LlavePage> {
                         SizedBox(
                           height: 30,
                         ),
-                        Text("¿Dondé encuentro el documento?",
+                        Text("¿Dónde encuentro la llave?",
                             style:
                                 TextStyle(color: Colors.white, fontSize: 18.0)),
                         SizedBox(
@@ -468,9 +468,8 @@ class _LlavePageState extends State<LlavePage> {
     setState(() {
       _guardando = false;
     });
-    mostrarSnackbar('Registro guardado');
-
-    Navigator.pop(context);
+    
+    mostrarAlerta(context, "registro exitoso");
   }
 
   Future<Map<String, dynamic>> existe(String colorUno) async {
