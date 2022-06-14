@@ -18,8 +18,11 @@ class BasicoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Documentos')),
-      drawer: MenuWidget(),
+      appBar:  AppBar(
+            title: Text('Documento encontrado'),
+            backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+            elevation: 0,
+          ),
       body: _crearListadoDocumentos(),
     );
   }
@@ -69,7 +72,7 @@ class BasicoPage extends StatelessWidget {
               ListTile(
                 subtitle: Text('disponible'),
                 title: Text(
-                    '\n Puedes contactarte a este número, una persona lo ha encontrado \n Contacto: ${documento.celular}'),
+                    '\nCédula encontrada: \nResponsable: ${documento.responsable} \nContacto: ${documento.celular}\nDirección: ${documento.direccion}'),
               ),
             ],
           ),

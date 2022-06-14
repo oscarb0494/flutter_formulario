@@ -143,7 +143,7 @@ class _LlavePageState extends State<LlavePage> {
             )
           ]),
           appBar: AppBar(
-            title: Text('llave'),
+            title: Text('Llave'),
             backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
             elevation: 0,
             actions: <Widget>[
@@ -191,7 +191,7 @@ class _LlavePageState extends State<LlavePage> {
           )
         ]),
         appBar: AppBar(
-          title: Text('llave'),
+          title: Text('Llave'),
           backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
           elevation: 0,
         ),
@@ -506,7 +506,7 @@ class _LlavePageState extends State<LlavePage> {
                   )),
         );
       } else {
-        mostrarAlerta(context, 'Documento no encontrado');
+        mostrarAlerta(context, 'Llave no encontrada');
       }
     }
   }

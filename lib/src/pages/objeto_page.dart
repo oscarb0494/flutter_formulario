@@ -141,7 +141,7 @@ class _ObjetoPageState extends State<ObjetoPage> {
           )
         ]),
         appBar: AppBar(
-          title: Text('objeto'),
+          title: Text('Objeto'),
           backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
           elevation: 0,
           actions: <Widget>[

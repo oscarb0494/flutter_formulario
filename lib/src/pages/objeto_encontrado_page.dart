@@ -19,8 +19,11 @@ class ObjetoEncontradoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Documentos')),
-      drawer: MenuWidget(),
+      appBar: AppBar(
+            title: Text('Objetos encontrados'),
+            backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+            elevation: 0,
+          ),
       body: _crearListadoDocumentos(),
     );
   }
@@ -70,7 +73,7 @@ class ObjetoEncontradoPage extends StatelessWidget {
               ListTile(
                 subtitle: Text('disponible'),
                 title: Text(
-                    '\n Puedes contactarte a este número, una persona lo ha encontrado \n Contacto: ${objeto.id}'),
+                     '\nObjeto encontrado: \nResponsable: ${objeto.responsable} \nContacto: ${objeto.celular}\nDirección: ${objeto.direccion}'),
               ),
             ],
           ),

@@ -48,7 +48,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
     'Licencia de conducción'
   ];
 
-  String titulo = "buscando documento";
+  String titulo = "Buscando documento";
 
   @override
   Widget build(BuildContext context) {
@@ -377,9 +377,7 @@ class _DocumentoPageState extends State<DocumentosPage> {
       _guardando = true;
     });
 
-    if (foto != null) {
-      documento.fotoUrl = await documentoProvider.subirImagen(foto);
-    }
+    print("entra registrar");
 
     if (documento.id == null) {
       documentoProvider.crearDocumento(documento);

@@ -17,8 +17,11 @@ class LlaveEncontradaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Documentos')),
-      drawer: MenuWidget(),
+            appBar: AppBar(
+            title: Text('Llaves encontradas'),
+            backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
+            elevation: 0,
+          ),
       body: _crearListadoDocumentos(),
     );
   }
@@ -40,7 +43,7 @@ class LlaveEncontradaPage extends StatelessWidget {
           } else {
             return Center(
                 child: Text(
-                    "La cédula con número: " + data + " no fue encontrada"));
+                    "La llave no fue encontrada"));
           }
         });
   }
@@ -68,7 +71,7 @@ class LlaveEncontradaPage extends StatelessWidget {
               ListTile(
                 subtitle: Text('Disponible'),
                 title: Text(
-                    '\n Puedes contactarte a este número, una persona lo ha encontrado \n Contacto: ${llave.id}'),
+                    '\nLlave encontrada: \nResponsable: ${llave.responsable} \nContacto: ${llave.celular}\nDirección: ${llave.direccion}'),
               ),
             ],
           ),
@@ -80,6 +83,12 @@ class LlaveEncontradaPage extends StatelessWidget {
   /// @context contexto de uso de la aplicación.
   /// @imageAddress corresponde a la dirección de la imagen que visualizaremos
   Widget _crearImagen(BuildContext context, String imageAddress) {
+
+    if (imageAddress == null || imageAddress == ""){
+      imageAddress = "https://res.cloudinary.com/dun3q6j0s/image/upload/v1655162976/kkcvxklfic0ortzvy2yp.png";
+    }
+
+
     return Container(
       width: double.infinity,
       child: GestureDetector(
@@ -134,7 +143,7 @@ class LlaveEncontradaPage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 40.0),
         child: Text(
-          data,
+          "Llave",
           textAlign: TextAlign.justify,
         ),
       ),

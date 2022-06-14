@@ -113,7 +113,7 @@ class _ObjetoSearchPageState extends State<ObjetoSearchPage> {
           )
         ]),
         appBar: AppBar(
-          title: Text('objeto'),
+          title: Text('Objeto'),
           backgroundColor: Color.fromRGBO(55, 57, 84, 1.0),
           elevation: 0,
         ),
@@ -215,12 +215,13 @@ class _ObjetoSearchPageState extends State<ObjetoSearchPage> {
   }
 
   Widget _crearBoton() {
-    return RaisedButton.icon(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-      color: Colors.deepPurple,
-      textColor: Colors.white,
-      label: Text('Registrar'),
-      icon: Icon(Icons.save),
+    return RaisedButton(
+       shape: StadiumBorder(),
+        color: Colors.blue,
+        textColor: Colors.white,
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 20.0),
+            child: Text('Buscar', style: TextStyle(fontSize: 20.0))),
       onPressed: (_buscar) ? null : _submit,
     );
   }
@@ -262,7 +263,7 @@ class _ObjetoSearchPageState extends State<ObjetoSearchPage> {
                   colorDos: objeto.colorDos)),
         );
       } else {
-        mostrarAlerta(context, 'documento no encontrado');
+        mostrarAlerta(context, 'Objeto no encontrado');
       }
     }
   }
